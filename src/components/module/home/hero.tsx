@@ -24,7 +24,7 @@ export default function HeroSection() {
               <span className="gradient-text">delivered</span> to your door
             </h1>
 
-            <p className="text-sm sm:text-lg text-muted-foreground max-w-[500px]">
+            <p className="text-sm sm:text-lg text-muted-foreground max-w-125">
               Curated meals from the cities finest chefs, delivered with
               clinical precision and artistic flair.
             </p>
@@ -89,11 +89,11 @@ export default function HeroSection() {
               sizes="(max-width: 768px) 100vw, 50vw"
               priority
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
+            <div className="absolute inset-0 bg-linear-to-t from-black/40 to-transparent" />
           </div>
 
           {/* Floating Notification Card */}
-          <Card className="absolute -top-6 -right-6 glass dark:glass-dark p-4 rounded-2xl shadow-2xl flex items-center gap-4 border max-w-[280px]">
+          <Card className="absolute -top-6 -right-6 glass dark:glass-dark p-4 rounded-2xl shadow-2xl flex items-center gap-4 border max-w-70">
             <CardContent className="p-0 flex items-center gap-4">
               <div className="size-10 rounded-xl relative overflow-hidden border border-border">
                 <Image

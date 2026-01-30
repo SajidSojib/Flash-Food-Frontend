@@ -4,8 +4,12 @@ import React from 'react'
 export default function MainLayout({children}: {children: React.ReactNode}) {
   return (
     <>
-        <nav><Navbar /></nav>
+      <div className='bg-background'>
+        <nav>
+          <Navbar />
+        </nav>
         <main>{children}</main>
+      </div>
     </>
-  )
+  );
 }
