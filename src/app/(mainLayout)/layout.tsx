@@ -1,3 +1,4 @@
+import Footer from '@/components/layout/footer';
 import Navbar from '@/components/layout/navbar'
 import React from 'react'
 
@@ -9,6 +10,9 @@ export default function MainLayout({children}: {children: React.ReactNode}) {
           <Navbar />
         </nav>
         <main>{children}</main>
+        <footer>
+          <Footer />
+        </footer>
       </div>
     </>
   );

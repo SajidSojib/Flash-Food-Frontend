@@ -7,8 +7,8 @@ import Image from "next/image";
 
 export default function HeroSection() {
   return (
-    <section className="w-full max-w-7xl mx-auto p-6 pb-12 pt-28 sm:pt-45 bg-background">
-      <div className="grid lg:grid-cols-2 gap-16 items-center">
+    <section className="w-full min-h-screen  mx-auto p-6 pb-12 pt-28 sm:pt-45 bg-card">
+      <div className="grid md:grid-cols-2 max-w-(--breakpoint-xl) mx-auto gap-16 items-center">
         {/* Hero Left */}
         <div className="flex flex-col gap-3 sm:gap-8">
           <div className="space-y-2 sm:space-y-4">
@@ -19,7 +19,7 @@ export default function HeroSection() {
               Premium Delivery Service
             </Badge>
 
-            <h1 className="text-3xl sm:text-5xl lg:text-6xl xl:text-7xl font-black leading-[1.1] tracking-tight text-foreground">
+            <h1 className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-black leading-[1.1] tracking-tight text-foreground">
               Gourmet experiences,{" "}
               <span className="gradient-text">delivered</span> to your door
             </h1>
@@ -34,7 +34,7 @@ export default function HeroSection() {
           <Card className="glass dark:glass-dark p-2 rounded-2xl flex items-center gap-2 shadow-xl border">
             <CardContent className="p-0 w-full flex items-center gap-2">
               <div className="pl-4 flex items-center gap-2 text-muted-foreground flex-1">
-                <MapPin className="h-5 w-5" />
+                <MapPin className="h-5 text-primary w-5" />
                 <Input
                   className="bg-transparent border-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 text-sm md:text-base w-full placeholder:text-muted-foreground"
                   placeholder="Enter your cravings"
@@ -80,7 +80,7 @@ export default function HeroSection() {
 
         {/* Hero Right: Interactive Carousel Mockup */}
         <div className="relative group">
-          <div className="relative border-2 border-border w-full h-full overflow-y-hidden aspect-square">
+          <div className="relative border-2 border-border w-2xs sm:w-sm lg:w-md mx-auto xl:w-xl h-full overflow-y-hidden aspect-square">
             <Image
               src="https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=800&auto=format&fit=crop&q=60"
               alt="High quality gourmet pasta dish close up"
@@ -93,9 +93,9 @@ export default function HeroSection() {
           </div>
 
           {/* Floating Notification Card */}
-          <Card className="absolute -top-6 -right-6 glass dark:glass-dark p-4 rounded-2xl shadow-2xl flex items-center gap-4 border max-w-70">
+          <Card className="absolute animate-pulse transform scale-75 -top-6 -right-6 glass dark:glass-dark p-4 rounded-2xl shadow-2xl flex items-center gap-4 border max-w-70">
             <CardContent className="p-0 flex items-center gap-4">
-              <div className="size-10 rounded-xl relative overflow-hidden border border-border">
+              <div className="size-12 rounded-xl relative overflow-hidden border border-border">
                 <Image
                   src="https://images.unsplash.com/photo-1579584425555-c3ce17fd4351?w=200&auto=format&fit=crop"
                   alt="Miniature image of sushi roll"
@@ -119,20 +119,23 @@ export default function HeroSection() {
           </Card>
 
           {/* Delivery Tracker Card */}
-          <Card className="absolute -bottom-10 -left-6 glass dark:glass-dark p-6 rounded-2xl shadow-2xl border">
+          <Card className="absolute -bottom-10 animate-bounce trnasform scale-75 -left-6 glass dark:glass-dark p-6 rounded-2xl shadow-2xl border">
             <CardContent className="p-0">
               <div className="flex items-center gap-4">
-                <div className="size-14 rounded-full border-4 border-primary/20 p-1">
+                <div className="size-12 rounded-full border-4 border-primary/20 p-1">
                   <div className="w-full h-full rounded-full bg-primary flex items-center justify-center">
                     <Bike className="h-6 w-6 text-primary-foreground" />
                   </div>
                 </div>
                 <div>
+                  <p className="text-[10px] font-bold text-primary uppercase tracking-wider">
+                    On the way
+                  </p>
                   <p className="text-sm font-bold text-foreground">
                     Rapid Tracker
                   </p>
                   <p className="text-xs text-muted-foreground">
-                    Courier is arriving in 4m
+                    Meal is arriving in 4m
                   </p>
                 </div>
               </div>
