@@ -151,7 +151,7 @@ export function SignupForm() {
 
         toast.success("Account created successfully!", { id: toastId });
 
-        router.push("/");
+        router.push("/login");
         router.refresh();
       } catch (error) {
         console.error("Signup error:", error);
