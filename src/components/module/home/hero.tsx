@@ -93,7 +93,7 @@ export default function HeroSection() {
           </div>
 
           {/* Floating Notification Card */}
-          <Card className="absolute animate-pulse transform scale-75 -top-6 -right-6 glass dark:glass-dark p-4 rounded-2xl shadow-2xl flex items-center gap-4 border max-w-70">
+          <Card className="absolute animate-pulse transform scale-75 lg:scale-100 -top-6 -right-6 glass dark:glass-dark p-4 rounded-2xl shadow-2xl flex items-center gap-4 border max-w-70">
             <CardContent className="p-0 flex items-center gap-4">
               <div className="size-12 rounded-xl relative overflow-hidden border border-border">
                 <Image
@@ -119,7 +119,7 @@ export default function HeroSection() {
           </Card>
 
           {/* Delivery Tracker Card */}
-          <Card className="absolute -bottom-10 animate-bounce trnasform scale-75 -left-6 glass dark:glass-dark p-6 rounded-2xl shadow-2xl border">
+          <Card className="absolute -bottom-10 animate-bounce trnasform scale-75 lg:scale-100 -left-6 glass dark:glass-dark p-6 rounded-2xl shadow-2xl border">
             <CardContent className="p-0">
               <div className="flex items-center gap-4">
                 <div className="size-12 rounded-full border-4 border-primary/20 p-1">

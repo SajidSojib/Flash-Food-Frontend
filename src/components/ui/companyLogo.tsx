@@ -8,7 +8,7 @@ export default function CompanyLogo() {
       <div>
         <Image priority src={logo} className='w-10' alt="Company Logo" />
       </div>
-      <p className='text-2xl font-bold'>
+      <p className='text-2xl hidden sm:block font-bold'>
         <span>Flash</span>
         <span className="text-primary">Food</span>
       </p>
