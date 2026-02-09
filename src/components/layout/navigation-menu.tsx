@@ -59,8 +59,40 @@ function NavigationMenuItem({
 }
 
 const navigationMenuTriggerStyle = cva(
-  "group inline-flex h-9 w-max items-center justify-center rounded-md bg-background px-4 py-2 text-sm font-medium hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground disabled:pointer-events-none disabled:opacity-50 data-[state=open]:hover:bg-accent data-[state=open]:text-accent-foreground data-[state=open]:focus:bg-accent data-[state=open]:bg-accent/50 focus-visible:ring-ring/50 outline-none transition-[color,box-shadow] focus-visible:ring-[3px] focus-visible:outline-1"
-)
+  `
+  relative group inline-flex items-center justify-center
+  h-10 xl:h-8 px-4
+
+  text-sm font-medium
+  text-foreground
+  hover:text-primary
+
+  bg-transparent
+  rounded-lg
+
+  transition-colors duration-200
+
+  focus-visible:outline-none
+  focus-visible:ring-2 focus-visible:ring-ring/40
+
+  disabled:pointer-events-none
+  disabled:opacity-50
+
+  after:absolute
+  after:left-1/2
+  after:bottom-0
+  after:h-[2px]
+  after:w-0
+  after:-translate-x-1/2
+  after:bg-primary
+  after:transition-all
+  after:duration-300
+  after:ease-out
+
+  hover:after:w-full
+  data-[state=open]:after:w-full
+  `,
+);
 
 function NavigationMenuTrigger({
   className,
@@ -129,12 +161,29 @@ function NavigationMenuLink({
     <NavigationMenuPrimitive.Link
       data-slot="navigation-menu-link"
       className={cn(
-        "data-[active=true]:focus:bg-accent data-[active=true]:hover:bg-accent data-[active=true]:bg-accent/50 data-[active=true]:text-accent-foreground hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground focus-visible:ring-ring/50 [&_svg:not([class*='text-'])]:text-muted-foreground flex flex-col gap-1 rounded-sm p-2 text-sm transition-all outline-none focus-visible:ring-[3px] focus-visible:outline-1 [&_svg:not([class*='size-'])]:size-4",
-        className
+        `
+        relative group flex flex-col gap-1 rounded-sm p-2 text-sm
+        text-muted-foreground hover:text-foreground
+        transition-colors outline-none
+
+        focus-visible:ring-2 focus-visible:ring-ring/40
+
+        after:absolute after:left-1/2 after:bottom-1
+        after:h-0.5 after:w-0 after:-translate-x-1/2
+        after:bg-primary after:transition-all after:duration-300
+
+        hover:after:w-full
+        data-[active=true]:text-foreground
+        data-[active=true]:after:w-full
+
+        [&_svg:not([class*='text-'])]:text-muted-foreground
+        [&_svg:not([class*='size-'])]:size-4
+        `,
+        className,
       )}
       {...props}
     />
-  )
+  );
 }
 
 function NavigationMenuIndicator({

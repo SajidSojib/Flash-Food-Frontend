@@ -10,8 +10,11 @@ import {
 import { Logo } from "@/components/layout/logo";
 import { NavMenu } from "@/components/layout/nav-menu";
 import Link from "next/link";
+import { userServices } from "@/services/user.service";
+import LogoutButton from "./logoutButton";
 
-export const NavigationSheet = () => {
+export const NavigationSheet = async () => {
+  const { data: session } = await userServices.getSessionServer();
   return (
     <Sheet>
       <VisuallyHidden>
@@ -26,12 +29,24 @@ export const NavigationSheet = () => {
       <SheetContent className="px-6 py-3">
         <Logo />
         <NavMenu className="mt-6 [&>div]:h-full" orientation="vertical" />
-        <Button asChild variant="outline" className="md:hidden rounded-full">
-          <Link href="/login">Login</Link>
-        </Button>
-        <Button className="md:hidden rounded-full">
-          <Link href="/signup">Sign Up</Link>
-        </Button>
+        {session ? (
+          <div className="md:hidden">
+            <LogoutButton></LogoutButton>
+          </div>
+        ) : (
+          <>
+            <Button
+              asChild
+              variant="outline"
+              className="md:hidden rounded-full"
+            >
+              <Link href="/login">Login</Link>
+            </Button>
+            <Button className="md:hidden rounded-full">
+              <Link href="/signup">Sign Up</Link>
+            </Button>
+          </>
+        )}
       </SheetContent>
     </Sheet>
   );

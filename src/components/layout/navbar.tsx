@@ -7,8 +7,12 @@ import { ModeToggle } from "./mode-toggle";
 import { ShoppingCart, User } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import CompanyLogo from "../ui/companyLogo";
+import { userServices } from "@/services/user.service";
+import LogoutButton from "./logoutButton";
 
-const Navbar = () => {
+const Navbar = async () => {
+  const {data: session} = await userServices.getSessionServer();
+  console.log(session);
   return (
     <nav className="fixed z-50 top-6 max-w-(--breakpoint-xl) mx-auto inset-x-4">
       <div className="glass mx-auto dark:glass-dark flex h-16 items-center justify-between px-5 rounded-full shadow-[0_20px_60px_-15px_rgba(0,0,0,0.15)] dark:shadow-[0_20px_60px_-15px_rgba(0,0,0,0.35)] border border-border/50 backdrop-blur-sm">
@@ -34,32 +38,37 @@ const Navbar = () => {
             </Link>
           </Button>
 
-          {/* Auth Buttons - Desktop */}
-          <div className="hidden md:flex items-center gap-2">
-            <Button
-              className="rounded-full"
-              variant="outline"
-              size="sm"
-              asChild
-            >
-              <Link href="/login">
-                <User className="h-4 w-4 mr-2" />
-                Login
-              </Link>
-            </Button>
-            <Button className="rounded-full" size="sm" asChild>
-              <Link href="/signup">Sign Up</Link>
-            </Button>
-          </div>
-
           {/* Theme Toggle */}
           <div className="hidden lg:block">
             <ModeToggle />
           </div>
 
+          {/* Auth Buttons - Desktop */}
+          <div className="hidden md:flex items-center gap-2">
+            {session ? (
+              <LogoutButton />
+            ) : (
+              <>
+                <Button
+                  className="rounded-full"
+                  variant="outline"
+                  size="sm"
+                  asChild
+                >
+                  <Link href="/login">
+                    <User className="h-4 w-4 mr-2" />
+                    Login
+                  </Link>
+                </Button>
+                <Button className="rounded-full" size="sm" asChild>
+                  <Link href="/signup">Sign Up</Link>
+                </Button>
+              </>
+            )}
+          </div>
+
           {/* Mobile Menu */}
           <div className="flex items-center gap-2 lg:hidden">
-            
             <ModeToggle />
             <NavigationSheet />
           </div>
