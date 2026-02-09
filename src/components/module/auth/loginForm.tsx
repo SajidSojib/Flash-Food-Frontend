@@ -152,7 +152,6 @@ export function LoginForm() {
                               onBlur={field.handleBlur}
                               placeholder="you@example.com"
                               className={cn("pl-10")}
-                              disabled={form.state.isSubmitting}
                             />
                           </div>
 
@@ -187,7 +186,6 @@ export function LoginForm() {
                               onBlur={field.handleBlur}
                               placeholder="Enter password"
                               className={cn("pl-10 pr-10")}
-                              disabled={form.state.isSubmitting}
                             />
 
                             <Button
