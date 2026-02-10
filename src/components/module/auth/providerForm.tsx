@@ -31,8 +31,11 @@ import {
   Globe,
   MapPin,
   Truck,
+  ChevronRight,
+  ChevronLeft,
+  Check,
 } from "lucide-react";
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { Separator } from "@/components/ui/separator";
@@ -43,6 +46,8 @@ import { env } from "@/env";
 import { useRouter } from "next/navigation";
 import { Textarea } from "@/components/ui/textarea";
 import { providerServices } from "@/services/provider.service";
+import { AnimatePresence, motion, MotionConfig } from "motion/react";
+import useMeasure from "react-use-measure";
 
 const providerSchema = z.object({
   // User data
@@ -119,7 +124,7 @@ const providerSchema = z.object({
       { message: "Only JPEG, PNG, and WebP images are allowed for logo" },
     ),
 
-  website: z.url({ message: "Please enter a valid website URL" }),
+  website: z.string().url({ message: "Please enter a valid website URL" }),
 
   restaurantPhone: z.string().regex(/^\d{11}$/, {
     message: "Please enter a valid 11-digit restaurant phone number",
@@ -134,14 +139,18 @@ const providerSchema = z.object({
     message: "Please enter a valid delivery fee (e.g., 50.00)",
   }),
 });
- 
+
 type ProviderFormValues = z.infer<typeof providerSchema>;
 
 export function ProviderForm() {
   const [showPassword, setShowPassword] = useState(false);
   const [photoPreviewUrl, setPhotoPreviewUrl] = useState<string | null>(null);
   const [logoPreviewUrl, setLogoPreviewUrl] = useState<string | null>(null);
+  const [currentStep, setCurrentStep] = useState(0);
+  const [direction, setDirection] = useState<number>();
+  const [ref, bounds] = useMeasure();
   const router = useRouter();
+
   const form = useForm({
     defaultValues: {
       // User data
@@ -171,7 +180,7 @@ export function ProviderForm() {
           email: value.email,
           phone: value.phone,
           password: value.password,
-          photo: "",
+          image: "",
         };
 
         const providerData = {
@@ -204,7 +213,7 @@ export function ProviderForm() {
             const result = await res.json();
 
             if (result.success && result.data?.display_url) {
-              userData.photo = result.data.display_url;
+              userData.image = result.data.display_url;
             } else {
               throw new Error(result.error?.message || "Image upload failed");
             }
@@ -245,18 +254,26 @@ export function ProviderForm() {
           }
         }
 
+        console.log({userData, providerData});
+
         const { data, error } = await authClient.signUp.email(userData);
-        if(data?.token) {
+        if (data?.token) {
           providerData.token = data?.token;
         }
 
-        const { data : providerRes, error: providerError } = await providerServices.createProvider({userId: data?.user.id, ...providerData});
+        const { data: providerRes, error: providerError } =
+          await providerServices.createProvider({
+            userId: data?.user.id,
+            ...providerData,
+          });
 
         if (error || providerError) {
-          toast.error(error?.message || providerError?.message || "Sign up failed", { id: toastId });
+          toast.error(
+            error?.message || providerError?.message || "Sign up failed",
+            { id: toastId },
+          );
           return;
         }
-        console.log({data, providerRes});
 
         toast.success("Provider account created successfully!", {
           id: toastId,
@@ -292,22 +309,44 @@ export function ProviderForm() {
     }
   };
 
-  return (
-    <>
-      <CardContent>
-        <form
-          id="provider-form"
-          onSubmit={(e) => {
-            e.preventDefault();
-            e.stopPropagation();
-            form.handleSubmit();
-          }}
-        >
-          <FieldGroup className="space-y-3">
-            <CardTitle className="text-primary mt-4 mb-0">
-              User Information
-            </CardTitle>
+  const nextStep = () => {
+    if (currentStep === 2) {
+      form.handleSubmit();
+      return;
+    }
+    if (currentStep < 2) {
+      setDirection(1);
+      setCurrentStep((prev) => prev + 1);
+    }
+  };
 
+  const prevStep = () => {
+    if (currentStep > 0) {
+      setDirection(-1);
+      setCurrentStep((prev) => prev - 1);
+    }
+  };
+
+  const stepTitles = [
+    {
+      title: "Personal Information",
+      description: "Provide your personal details and profile information",
+    },
+    {
+      title: "Restaurant Information",
+      description: "Tell us about your restaurant business",
+    },
+    {
+      title: "Business Details",
+      description: "Complete your restaurant setup with final details",
+    },
+  ];
+
+  const content = useMemo(() => {
+    switch (currentStep) {
+      case 0:
+        return (
+          <div className="space-y-5">
             {/* User Photo Upload Field */}
             <form.Field
               name="photo"
@@ -512,10 +551,11 @@ export function ProviderForm() {
                 }}
               />
             </div>
-
-            <CardTitle className="text-primary mt-5 mb-0">
-              Restaurant Information
-            </CardTitle>
+          </div>
+        );
+      case 1:
+        return (
+          <div className="space-y-5">
             {/* Restaurant Logo Upload Field */}
             <form.Field
               name="logo"
@@ -714,7 +754,11 @@ export function ProviderForm() {
                 }}
               />
             </div>
-
+          </div>
+        );
+      case 2:
+        return (
+          <div className="space-y-5">
             <div className="flex flex-col sm:flex-row gap-5">
               {/* Description Field */}
               <form.Field
@@ -780,21 +824,136 @@ export function ProviderForm() {
                 }}
               />
             </div>
-          </FieldGroup>
-        </form>
-      </CardContent>
+          </div>
+        );
+      default:
+        return null;
+    }
+  }, [
+    currentStep,
+    photoPreviewUrl,
+    logoPreviewUrl,
+    showPassword,
+  ]);
 
-      <CardFooter>
-        <Button
-          form="provider-form"
-          className="w-full"
-          variant={"default"}
-          type="submit"
-          disabled={form.state.isSubmitting || !form.state.isValid}
-        >
-          {form.state.isSubmitting ? "Signing you up..." : "Sign up"}
-        </Button>
-      </CardFooter>
-    </>
+  const variants = {
+    initial: (direction: number) => {
+      return { x: `${110 * direction}%`, opacity: 0 };
+    },
+    animate: { x: "0%", opacity: 1 },
+    exit: (direction: number) => {
+      return { x: `${-110 * direction}%`, opacity: 0 };
+    },
+  };
+
+  return (
+    <MotionConfig
+      transition={{
+        duration: 0.5,
+        type: "spring",
+        bounce: 0,
+      }}
+    >
+      <Card className="w-full py-0 border-none shadow-none overflow-hidden">
+        <motion.div layout>
+          <CardHeader className="flex flex-row items-start justify-between space-y-0 px-6 py-4">
+            <div className="flex flex-col gap-1">
+              <CardTitle className="text-lg text-primary">
+                {stepTitles[currentStep].title}
+              </CardTitle>
+            </div>
+            <div className="flex items-center gap-1.5 pt-1">
+              {stepTitles.map((_, index) => (
+                <div
+                  key={index}
+                  className={cn(
+                    "h-2 rounded-full transition-all duration-300",
+                    currentStep === index
+                      ? "w-8 bg-primary"
+                      : "w-2 bg-primary/20",
+                  )}
+                />
+              ))}
+            </div>
+          </CardHeader>
+
+          <motion.div
+            animate={{ height: bounds.height > 0 ? bounds.height : "auto" }}
+            className="relative overflow-hidden"
+            transition={{ type: "spring", bounce: 0, duration: 0.5 }}
+          >
+            <div ref={ref}>
+              <CardContent className="px-6 py-2 relative">
+                <AnimatePresence
+                  mode="popLayout"
+                  initial={false}
+                  custom={direction}
+                >
+                  <motion.div
+                    key={currentStep}
+                    variants={variants}
+                    initial="initial"
+                    animate="animate"
+                    exit="exit"
+                    className="w-full"
+                    custom={direction}
+                  >
+                    <form
+                      id="provider-form"
+                      onSubmit={(e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        form.handleSubmit();
+                      }}
+                    >
+                      <FieldGroup>{content}</FieldGroup>
+                    </form>
+                  </motion.div>
+                </AnimatePresence>
+              </CardContent>
+            </div>
+          </motion.div>
+
+          <CardFooter className="flex justify-between items-center py-4">
+            <Button
+              variant={"secondary"}
+              type="button"
+              onClick={prevStep}
+              disabled={currentStep === 0}
+            >
+              <ChevronLeft className="h-4 w-4" />
+              Back
+            </Button>
+            <Button
+              type="button"
+              onClick={nextStep}
+              disabled={form.state.isSubmitting}
+            >
+              {currentStep === stepTitles.length - 1 ? (
+                <>
+                  Finish <Check className="h-4 w-4" />
+                </>
+              ) : (
+                <>
+                  Continue <ChevronRight className="h-4 w-4" />
+                </>
+              )}
+            </Button>
+          </CardFooter>
+          <div className="px-6 gap-3 mt-2 flex flex-col justify-center">
+            <Separator />
+            <p className="text-center text-sm text-muted-foreground">
+              Already have an account?{" "}
+              <Link
+                href="/login"
+                className="text-primary font-medium hover:underline"
+              >
+                Login
+              </Link>
+            </p>
+          </div>
+        </motion.div>
+      </Card>
+    </MotionConfig>
   );
 }

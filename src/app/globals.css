@@ -50,43 +50,43 @@
   --radius: 0.623rem;
   --background: #ece9e8;
   --foreground: #181210;
-  
+
   --card: #ffffff;
   --card-foreground: #181210;
-  
+
   --popover: #ffffff;
   --popover-foreground: #181210;
-  
+
   --primary: #ff7a52;
   --primary-foreground: #ffffff;
-  
+
   --secondary: #ffb38a;
   --secondary-foreground: #181210;
-  
+
   --accent: #ffb38a;
   --accent-foreground: #181210;
-  
+
   --muted: #f0e9e6;
   --muted-foreground: #6b7280;
-  
+
   --border: #cdcac8;
   --input: #ffffff;
   --ring: #ff7a52;
-  
+
   --destructive: #ef4444;
   --destructive-foreground: #ffffff;
-  
+
   --success: #10b981;
   --warning: #f59e0b;
   --info: #3b82f6;
-  
+
   /* Charts */
   --chart-1: #ff7a52;
   --chart-2: #ffb38a;
   --chart-3: #f59e0b;
   --chart-4: #8b5cf6;
   --chart-5: #10b981;
-  
+
   /* Sidebar */
   --sidebar: #ffffff;
   --sidebar-foreground: #181210;
@@ -101,43 +101,43 @@
 .dark {
   --background: #121212;
   --foreground: #ffffff;
-  
+
   --card: #1e1e1e;
   --card-foreground: #ffffff;
-  
+
   --popover: #1e1e1e;
   --popover-foreground: #ffffff;
-  
+
   --primary: #ff7a52;
   --primary-foreground: #121212;
-  
+
   --secondary: #ff9d80;
   --secondary-foreground: #ffffff;
-  
+
   --accent: #ff4d17;
   --accent-foreground: #ffffff;
-  
+
   --muted: #2a2a2a;
   --muted-foreground: #a8a29e;
-  
+
   --border: rgba(255, 255, 255, 0.1);
   --input: rgba(255, 255, 255, 0.05);
   --ring: #ff7a52;
-  
+
   --destructive: #dc2626;
   --destructive-foreground: #ffffff;
-  
+
   --success: #059669;
   --warning: #d97706;
   --info: #2563eb;
-  
+
   /* Charts */
   --chart-1: #ff7a52;
   --chart-2: #ff9d80;
   --chart-3: #ff4d17;
   --chart-4: #8b5cf6;
   --chart-5: #10b981;
-  
+
   /* Sidebar */
   --sidebar: #1e1e1e;
   --sidebar-foreground: #ffffff;
@@ -235,7 +235,7 @@ footer button:hover {
   footer .grid {
     gap: 2rem;
   }
-  
+
   footer h3 {
     font-size: 1.1rem;
   }
@@ -254,5 +254,14 @@ footer button:hover {
 footer form:focus-within {
   box-shadow: 0 0 0 3px color-mix(in srgb, var(--primary) 30%, transparent);
   border-radius: var(--radius);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
 }
 

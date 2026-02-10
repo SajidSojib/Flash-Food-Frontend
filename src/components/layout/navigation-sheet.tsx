@@ -7,11 +7,11 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/layout/sheet";
-import { Logo } from "@/components/layout/logo";
 import { NavMenu } from "@/components/layout/nav-menu";
 import Link from "next/link";
 import { userServices } from "@/services/user.service";
 import LogoutButton from "./logoutButton";
+import CompanyLogo from "../common/companyLogo";
 
 export const NavigationSheet = async () => {
   const { data: session } = await userServices.getSessionServer();
@@ -27,7 +27,7 @@ export const NavigationSheet = async () => {
         </Button>
       </SheetTrigger>
       <SheetContent className="px-6 py-3">
-        <Logo />
+        <CompanyLogo />
         <NavMenu className="mt-6 [&>div]:h-full" orientation="vertical" />
         {session ? (
           <div className="md:hidden">

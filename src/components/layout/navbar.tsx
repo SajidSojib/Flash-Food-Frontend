@@ -1,23 +1,22 @@
 import { Button } from "@/components/ui/button";
-import { Logo } from "@/components/layout/logo";
 import { NavMenu } from "@/components/layout/nav-menu";
 import { NavigationSheet } from "@/components/layout/navigation-sheet";
 import Link from "next/link";
 import { ModeToggle } from "./mode-toggle";
 import { ShoppingCart, User } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
-import CompanyLogo from "../ui/companyLogo";
+import CompanyLogo from "../common/companyLogo";
 import { userServices } from "@/services/user.service";
 import LogoutButton from "./logoutButton";
 
 const Navbar = async () => {
-  const {data: session} = await userServices.getSessionServer();
+  const { data: session } = await userServices.getSessionServer();
   console.log(session);
   return (
     <nav className="fixed z-50 top-6 max-w-(--breakpoint-xl) mx-auto inset-x-4">
       <div className="glass mx-auto dark:glass-dark flex h-16 items-center justify-between px-5 rounded-full shadow-[0_20px_60px_-15px_rgba(0,0,0,0.15)] dark:shadow-[0_20px_60px_-15px_rgba(0,0,0,0.35)] border border-border/50 backdrop-blur-sm">
         {/* Logo */}
-        <CompanyLogo />
+        <CompanyLogo classNames={"hidden sm:block"} />
 
         {/* Desktop Menu */}
         <NavMenu className="hidden lg:flex items-center gap-8" />

@@ -10,7 +10,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import Link from "next/link";
-import { Logo } from "@/components/layout/logo";
+import CompanyLogo from "../common/companyLogo";
 
 export default function Footer() {
   const currentYear = new Date().getFullYear();
@@ -22,7 +22,7 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 lg:gap-12 mb-12">
           {/* Brand Column */}
           <div className="space-y-6">
-            <Logo />
+            <CompanyLogo />
             <p className="text-muted-foreground text-sm leading-relaxed max-w-xs">
               FlashFood delivers gourmet experiences from premium restaurants
               directly to your door. Taste excellence, delivered fast.

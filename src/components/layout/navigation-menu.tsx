@@ -173,7 +173,7 @@ function NavigationMenuLink({
         after:bg-primary after:transition-all after:duration-300
 
         hover:after:w-full
-        data-[active=true]:text-foreground
+        data-[active=true]:text-primary
         data-[active=true]:after:w-full
 
         [&_svg:not([class*='text-'])]:text-muted-foreground
