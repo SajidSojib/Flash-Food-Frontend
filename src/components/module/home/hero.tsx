@@ -80,7 +80,7 @@ export default function HeroSection() {
 
         {/* Hero Right: Interactive Carousel Mockup */}
         <div className="relative group">
-          <div className="relative border-2 border-border w-2xs sm:w-sm lg:w-md mx-auto xl:w-xl h-full overflow-y-hidden aspect-square">
+          <div className="relative rounded-2xl w-2xs sm:w-sm lg:w-md mx-auto xl:w-xl h-full overflow-y-hidden aspect-square">
             <Image
               src="https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=800&auto=format&fit=crop&q=60"
               alt="High quality gourmet pasta dish close up"

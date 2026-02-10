@@ -5,6 +5,7 @@ import { CustomerForm } from "./customerForm";
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { ProviderForm } from "./providerForm";
+import { MultiStepProviderForm } from "@/components/multi-step-form";
 
 export function SignupForm() {
   const [customer, setCustomer] = useState(true);
@@ -54,7 +55,7 @@ export function SignupForm() {
                   : "Sign up to get started with Flash Food as a provider"}
               </CardDescription>
             </CardHeader>
-            {customer ? <CustomerForm /> : <ProviderForm />}
+            {customer ? <CustomerForm /> : <MultiStepProviderForm />}
           </Card>
         </div>
       </div>

@@ -134,7 +134,7 @@ const providerSchema = z.object({
     message: "Please enter a valid delivery fee (e.g., 50.00)",
   }),
 });
-
+ 
 type ProviderFormValues = z.infer<typeof providerSchema>;
 
 export function ProviderForm() {

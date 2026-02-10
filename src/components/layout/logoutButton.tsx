@@ -28,7 +28,7 @@ const LogoutButton = () => {
       };
     return (
       <Button onClick={handleLogout} className="rounded-full" variant="default" size="sm">
-          <LogOut className="h-4 w-4 mr-2" />
+          <LogOut className="h-4 w-4" />
           Log Out
       </Button>
     );
