@@ -7,7 +7,6 @@ import { Input } from "@/components/ui/input";
 import {
   Card,
   CardContent,
-  CardDescription,
   CardFooter,
   CardHeader,
   CardTitle,
@@ -19,8 +18,6 @@ import {
   FieldLabel,
 } from "@/components/ui/field";
 import {
-  Eye,
-  EyeOff,
   Upload,
   User,
   Mail,
@@ -34,6 +31,7 @@ import {
   ChevronRight,
   ChevronLeft,
   Check,
+  Loader,
 } from "lucide-react";
 import { useState, useMemo } from "react";
 import Image from "next/image";
@@ -44,10 +42,11 @@ import { authClient } from "@/lib/auth-client";
 import { toast } from "sonner";
 import { env } from "@/env";
 import { useRouter } from "next/navigation";
-import { Textarea } from "@/components/ui/textarea";
 import { providerServices } from "@/services/provider.service";
 import { AnimatePresence, motion, MotionConfig } from "motion/react";
 import useMeasure from "react-use-measure";
+import { InputField } from "@/components/common/inputField";
+import { TextareaField } from "@/components/common/textareaField";
 
 const providerSchema = z.object({
   // User data
@@ -148,6 +147,7 @@ export function ProviderForm() {
   const [logoPreviewUrl, setLogoPreviewUrl] = useState<string | null>(null);
   const [currentStep, setCurrentStep] = useState(0);
   const [direction, setDirection] = useState<number>();
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [ref, bounds] = useMeasure();
   const router = useRouter();
 
@@ -174,6 +174,7 @@ export function ProviderForm() {
     },
     onSubmit: async ({ value }) => {
       const toastId = toast.loading("Creating your provider account...");
+      setIsSubmitting(true);
       try {
         const userData = {
           name: value.name,
@@ -272,6 +273,7 @@ export function ProviderForm() {
             error?.message || providerError?.message || "Sign up failed",
             { id: toastId },
           );
+          setIsSubmitting(false);
           return;
         }
 
@@ -279,10 +281,12 @@ export function ProviderForm() {
           id: toastId,
         });
 
+        setIsSubmitting(false);
         router.push("/login");
         router.refresh();
       } catch (error) {
         console.error("Signup error:", error);
+        setIsSubmitting(false);
         toast.error(
           error instanceof Error ? error.message : "Something went wrong",
           { id: toastId },
@@ -418,29 +422,15 @@ export function ProviderForm() {
               <form.Field
                 name="name"
                 children={(field) => {
-                  const isInvalid =
-                    field.state.meta.isTouched && !field.state.meta.isValid;
                   return (
-                    <Field data-invalid={isInvalid}>
-                      <FieldLabel htmlFor={field.name}>Full Name</FieldLabel>
-                      <div className="relative">
-                        <User className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                        <Input
-                          type="text"
-                          id={field.name}
-                          name={field.name}
-                          value={field.state.value}
-                          onChange={(e) => field.handleChange(e.target.value)}
-                          onBlur={field.handleBlur}
-                          placeholder="John Doe"
-                          className={cn("pl-10 w-full")}
-                        />
-                      </div>
-                      {isInvalid && (
-                        <FieldError errors={field.state.meta.errors} />
-                      )}
-                    </Field>
-                  );
+                    <InputField
+                      field={field}
+                      label="Full Name"
+                      placeholder="John Doe"
+                      type="text"
+                      icon={<User className="h-4 w-4 text-muted-foreground" />}  
+                    />
+                  )
                 }}
               />
 
@@ -448,31 +438,15 @@ export function ProviderForm() {
               <form.Field
                 name="email"
                 children={(field) => {
-                  const isInvalid =
-                    field.state.meta.isTouched && !field.state.meta.isValid;
                   return (
-                    <Field data-invalid={isInvalid}>
-                      <FieldLabel htmlFor={field.name}>
-                        Email Address
-                      </FieldLabel>
-                      <div className="relative">
-                        <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                        <Input
-                          type="email"
-                          id={field.name}
-                          name={field.name}
-                          value={field.state.value}
-                          onChange={(e) => field.handleChange(e.target.value)}
-                          onBlur={field.handleBlur}
-                          placeholder="you@example.com"
-                          className={cn("pl-10")}
-                        />
-                      </div>
-                      {isInvalid && (
-                        <FieldError errors={field.state.meta.errors} />
-                      )}
-                    </Field>
-                  );
+                    <InputField
+                      field={field}
+                      label="Email Address"
+                      placeholder="you@example.com"
+                      type="email"
+                      icon={<Mail className="h-4 w-4 text-muted-foreground" />}  
+                    />
+                  )
                 }}
               />
             </div>
@@ -482,29 +456,15 @@ export function ProviderForm() {
               <form.Field
                 name="phone"
                 children={(field) => {
-                  const isInvalid =
-                    field.state.meta.isTouched && !field.state.meta.isValid;
                   return (
-                    <Field data-invalid={isInvalid}>
-                      <FieldLabel htmlFor={field.name}>Phone Number</FieldLabel>
-                      <div className="relative">
-                        <Phone className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                        <Input
-                          type="tel"
-                          id={field.name}
-                          name={field.name}
-                          value={field.state.value}
-                          onChange={(e) => field.handleChange(e.target.value)}
-                          onBlur={field.handleBlur}
-                          placeholder="01XXXXXXXXX"
-                          className={cn("pl-10")}
-                        />
-                      </div>
-                      {isInvalid && (
-                        <FieldError errors={field.state.meta.errors} />
-                      )}
-                    </Field>
-                  );
+                    <InputField
+                      field={field}
+                      label="Phone Number"
+                      placeholder="01XXXXXXXXX"
+                      type="tel"
+                      icon={<Phone className="h-4 w-4 text-muted-foreground" />}  
+                    />
+                  )
                 }}
               />
 
@@ -512,42 +472,18 @@ export function ProviderForm() {
               <form.Field
                 name="password"
                 children={(field) => {
-                  const isInvalid =
-                    field.state.meta.isTouched && !field.state.meta.isValid;
                   return (
-                    <Field data-invalid={isInvalid}>
-                      <FieldLabel htmlFor={field.name}>Password</FieldLabel>
-                      <div className="relative">
-                        <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                        <Input
-                          type={showPassword ? "text" : "password"}
-                          id={field.name}
-                          name={field.name}
-                          value={field.state.value}
-                          onChange={(e) => field.handleChange(e.target.value)}
-                          onBlur={field.handleBlur}
-                          placeholder="Enter password"
-                          className={cn("pl-10 pr-10")}
-                        />
-                        <Button
-                          type="button"
-                          variant="ghost"
-                          size="icon"
-                          className="absolute right-2 top-1/2 transform -translate-y-1/2 h-7 w-7"
-                          onClick={() => setShowPassword(!showPassword)}
-                        >
-                          {showPassword ? (
-                            <EyeOff className="h-4 w-4" />
-                          ) : (
-                            <Eye className="h-4 w-4" />
-                          )}
-                        </Button>
-                      </div>
-                      {isInvalid && (
-                        <FieldError errors={field.state.meta.errors} />
-                      )}
-                    </Field>
-                  );
+                    <InputField
+                      field={field}
+                      label="Password"
+                      placeholder="Enter password"
+                      type="password"
+                      icon={<Lock className="h-4 w-4 text-muted-foreground" />}  
+                      showPasswordToggle
+                      onTogglePassword={() => setShowPassword(!showPassword)}
+                      showPassword={showPassword}
+                    />
+                  )
                 }}
               />
             </div>
@@ -627,62 +563,30 @@ export function ProviderForm() {
               <form.Field
                 name="restaurantName"
                 children={(field) => {
-                  const isInvalid =
-                    field.state.meta.isTouched && !field.state.meta.isValid;
                   return (
-                    <Field data-invalid={isInvalid}>
-                      <FieldLabel htmlFor={field.name}>
-                        Restaurant Name
-                      </FieldLabel>
-                      <div className="relative">
-                        <Building className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                        <Input
-                          type="text"
-                          id={field.name}
-                          name={field.name}
-                          value={field.state.value}
-                          onChange={(e) => field.handleChange(e.target.value)}
-                          onBlur={field.handleBlur}
-                          placeholder="Your Restaurant Name"
-                          className={cn("pl-10")}
-                        />
-                      </div>
-                      {isInvalid && (
-                        <FieldError errors={field.state.meta.errors} />
-                      )}
-                    </Field>
-                  );
+                    <InputField
+                      field={field}
+                      label="Restaurant Name"
+                      placeholder="Your Restaurant Name"
+                      type="text"
+                      icon={<Building className="h-4 w-4 text-muted-foreground" />}  
+                    />
+                  )
                 }}
               />
               {/* Restaurant Phone Field */}
               <form.Field
                 name="restaurantPhone"
                 children={(field) => {
-                  const isInvalid =
-                    field.state.meta.isTouched && !field.state.meta.isValid;
                   return (
-                    <Field data-invalid={isInvalid}>
-                      <FieldLabel htmlFor={field.name}>
-                        Restaurant Phone
-                      </FieldLabel>
-                      <div className="relative">
-                        <Phone className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                        <Input
-                          type="tel"
-                          id={field.name}
-                          name={field.name}
-                          value={field.state.value}
-                          onChange={(e) => field.handleChange(e.target.value)}
-                          onBlur={field.handleBlur}
-                          placeholder="01XXXXXXXXX"
-                          className={cn("pl-10")}
-                        />
-                      </div>
-                      {isInvalid && (
-                        <FieldError errors={field.state.meta.errors} />
-                      )}
-                    </Field>
-                  );
+                    <InputField
+                      field={field}
+                      label="Restaurant Phone"
+                      placeholder="01XXXXXXXXX"
+                      type="tel"
+                      icon={<Phone className="h-4 w-4 text-muted-foreground" />}  
+                    />
+                  )
                 }}
               />
             </div>
@@ -692,31 +596,15 @@ export function ProviderForm() {
               <form.Field
                 name="website"
                 children={(field) => {
-                  const isInvalid =
-                    field.state.meta.isTouched && !field.state.meta.isValid;
                   return (
-                    <Field data-invalid={isInvalid}>
-                      <FieldLabel htmlFor={field.name}>
-                        Website (Optional)
-                      </FieldLabel>
-                      <div className="relative">
-                        <Globe className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                        <Input
-                          type="text"
-                          id={field.name}
-                          name={field.name}
-                          value={field.state.value}
-                          onChange={(e) => field.handleChange(e.target.value)}
-                          onBlur={field.handleBlur}
-                          placeholder="https://example.com"
-                          className={cn("pl-10")}
-                        />
-                      </div>
-                      {isInvalid && (
-                        <FieldError errors={field.state.meta.errors} />
-                      )}
-                    </Field>
-                  );
+                    <InputField
+                      field={field}
+                      label="Website"
+                      placeholder="https://example.com"
+                      type="text"
+                      icon={<Globe className="h-4 w-4 text-muted-foreground" />}  
+                    />
+                  )
                 }}
               />
 
@@ -724,33 +612,17 @@ export function ProviderForm() {
               <form.Field
                 name="deliveryFee"
                 children={(field) => {
-                  const isInvalid =
-                    field.state.meta.isTouched && !field.state.meta.isValid;
                   return (
-                    <Field data-invalid={isInvalid}>
-                      <FieldLabel htmlFor={field.name}>
-                        Delivery Fee (৳)
-                      </FieldLabel>
-                      <div className="relative">
-                        <Truck className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                        <Input
-                          type="number"
-                          min={0}
-                          step={0.01}
-                          id={field.name}
-                          name={field.name}
-                          value={field.state.value}
-                          onChange={(e) => field.handleChange(e.target.value)}
-                          onBlur={field.handleBlur}
-                          placeholder="50.00"
-                          className={cn("pl-10")}
-                        />
-                      </div>
-                      {isInvalid && (
-                        <FieldError errors={field.state.meta.errors} />
-                      )}
-                    </Field>
-                  );
+                    <InputField
+                      field={field}
+                      label="Delivery Fee (৳)"
+                      placeholder="50.00"
+                      type="number"
+                      min={0}
+                      step={0.01}
+                      icon={<Truck className="h-4 w-4 text-muted-foreground" />}  
+                    />
+                  )
                 }}
               />
             </div>
@@ -764,30 +636,16 @@ export function ProviderForm() {
               <form.Field
                 name="description"
                 children={(field) => {
-                  const isInvalid =
-                    field.state.meta.isTouched && !field.state.meta.isValid;
                   return (
-                    <Field data-invalid={isInvalid}>
-                      <FieldLabel htmlFor={field.name}>
-                        Restaurant Description
-                      </FieldLabel>
-                      <div className="relative">
-                        <Building className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
-                        <Textarea
-                          id={field.name}
-                          name={field.name}
-                          value={field.state.value}
-                          onChange={(e) => field.handleChange(e.target.value)}
-                          onBlur={field.handleBlur}
-                          placeholder="Your Restaurant Description"
-                          className={cn("pl-10")}
-                          rows={4}
-                        />
-                      </div>
-                      {isInvalid && (
-                        <FieldError errors={field.state.meta.errors} />
-                      )}
-                    </Field>
+                    <TextareaField
+                      field={field}
+                      label="Restaurant Description"
+                      placeholder="Your Restaurant Description"
+                      icon={
+                        <Building className="h-4 w-4 text-muted-foreground" />
+                      }
+                      rows={4}
+                    />
                   );
                 }}
               />
@@ -796,30 +654,16 @@ export function ProviderForm() {
               <form.Field
                 name="address"
                 children={(field) => {
-                  const isInvalid =
-                    field.state.meta.isTouched && !field.state.meta.isValid;
                   return (
-                    <Field data-invalid={isInvalid}>
-                      <FieldLabel htmlFor={field.name}>
-                        Restaurant Address
-                      </FieldLabel>
-                      <div className="relative">
-                        <MapPin className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
-                        <Textarea
-                          rows={4}
-                          id={field.name}
-                          name={field.name}
-                          value={field.state.value}
-                          onChange={(e) => field.handleChange(e.target.value)}
-                          onBlur={field.handleBlur}
-                          placeholder="Full address of your restaurant"
-                          className={cn("pl-10")}
-                        />
-                      </div>
-                      {isInvalid && (
-                        <FieldError errors={field.state.meta.errors} />
-                      )}
-                    </Field>
+                    <TextareaField
+                      field={field}
+                      label="Restaurant Address"
+                      placeholder="Full address of your restaurant"
+                      icon={
+                        <MapPin className="h-4 w-4 text-muted-foreground" />
+                      }
+                      rows={4}
+                    />
                   );
                 }}
               />
@@ -927,11 +771,11 @@ export function ProviderForm() {
             <Button
               type="button"
               onClick={nextStep}
-              disabled={form.state.isSubmitting}
+              disabled={isSubmitting}
             >
               {currentStep === stepTitles.length - 1 ? (
                 <>
-                  Finish <Check className="h-4 w-4" />
+                  Finish {isSubmitting ? <Loader className="h-4 w-4 animate-spin" /> : <Check className="h-4 w-4" />}
                 </>
               ) : (
                 <>

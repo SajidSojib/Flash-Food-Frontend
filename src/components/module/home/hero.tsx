@@ -82,7 +82,7 @@ export default function HeroSection() {
         <div className="relative group">
           <div className="relative rounded-2xl w-2xs sm:w-sm lg:w-md mx-auto xl:w-xl h-full overflow-y-hidden aspect-square">
             <Image
-              src="https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=800&auto=format&fit=crop&q=60"
+              src="/hero.avif"
               alt="High quality gourmet pasta dish close up"
               fill
               className="object-cover rounded-2xl"
@@ -92,12 +92,39 @@ export default function HeroSection() {
             <div className="absolute inset-0 bg-linear-to-t from-black/40 to-transparent" />
           </div>
 
-          {/* Floating Notification Card */}
-          <Card className="absolute animate-pulse transform scale-75 lg:scale-100 -top-6 -right-6 glass dark:glass-dark p-4 rounded-2xl shadow-2xl flex items-center gap-4 border max-w-70">
+          {/* Delivery Tracker Card - Top Right */}
+          <Card className="absolute animate-bounce transform scale-75 lg:scale-100 -top-6 -right-6 glass dark:glass-dark p-6 rounded-2xl shadow-2xl border">
+            <CardContent className="p-0">
+              <div className="flex items-center gap-4">
+                <div className="relative size-12">
+                  <div className="absolute inset-0 rounded-full border-4 border-primary/20 animate-ping"></div>
+                  <div className="relative size-12 rounded-full border-4 border-primary/30 p-1">
+                    <div className="w-full h-full rounded-full bg-primary flex items-center justify-center">
+                      <Bike className="h-6 w-6 text-primary-foreground" />
+                    </div>
+                  </div>
+                </div>
+                <div>
+                  <p className="text-[10px] font-bold text-primary uppercase tracking-wider">
+                    On the way
+                  </p>
+                  <p className="text-sm font-bold text-foreground">
+                    Rapid Tracker
+                  </p>
+                  <p className="text-xs text-muted-foreground">
+                    Meal is arriving in 4m
+                  </p>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Floating Notification Card - Bottom Left */}
+          <Card className="absolute animate-pulse transform scale-75 lg:scale-100 -bottom-10 -left-6 glass dark:glass-dark p-4 rounded-2xl shadow-2xl flex items-center gap-4 border max-w-70">
             <CardContent className="p-0 flex items-center gap-4">
               <div className="size-12 rounded-xl relative overflow-hidden border border-border">
                 <Image
-                  src="https://images.unsplash.com/photo-1579584425555-c3ce17fd4351?w=200&auto=format&fit=crop"
+                  src="/sushi.avif"
                   alt="Miniature image of sushi roll"
                   fill
                   className="object-cover"
@@ -114,30 +141,6 @@ export default function HeroSection() {
                 <p className="text-[11px] text-muted-foreground">
                   2 mins ago in Chelsea
                 </p>
-              </div>
-            </CardContent>
-          </Card>
-
-          {/* Delivery Tracker Card */}
-          <Card className="absolute -bottom-10 animate-bounce trnasform scale-75 lg:scale-100 -left-6 glass dark:glass-dark p-6 rounded-2xl shadow-2xl border">
-            <CardContent className="p-0">
-              <div className="flex items-center gap-4">
-                <div className="size-12 rounded-full border-4 border-primary/20 p-1">
-                  <div className="w-full h-full rounded-full bg-primary flex items-center justify-center">
-                    <Bike className="h-6 w-6 text-primary-foreground" />
-                  </div>
-                </div>
-                <div>
-                  <p className="text-[10px] font-bold text-primary uppercase tracking-wider">
-                    On the way
-                  </p>
-                  <p className="text-sm font-bold text-foreground">
-                    Rapid Tracker
-                  </p>
-                  <p className="text-xs text-muted-foreground">
-                    Meal is arriving in 4m
-                  </p>
-                </div>
               </div>
             </CardContent>
           </Card>

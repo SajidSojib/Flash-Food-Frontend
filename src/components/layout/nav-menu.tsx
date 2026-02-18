@@ -11,19 +11,21 @@ import {
   NavigationMenuList,
   navigationMenuTriggerStyle,
 } from "@/components/layout/navigation-menu";
+import { navRoutesAfterLogin, navRoutesBeforeLogin } from "@/routes/navbarRoutes";
+import { authClient } from "@/lib/auth-client";
 
 export const NavMenu = (props: ComponentProps<typeof NavigationMenu>) => {
   const pathname = usePathname();
+  const {data: session} = authClient.useSession()
 
   const isActive = (href: string) => 
     pathname === href || pathname.startsWith(href + "/");
 
-  const navItems = [
-    { label: "Home", href: "/" },
-    { label: "Browse Menu", href: "/menus" },
-    { label: "All Restaurants", href: "/restaurants" },
-    { label: "Dashboard", href: "/dashboard" },
-  ];
+  let navItems = navRoutesBeforeLogin
+
+  if(session) {
+    navItems = navRoutesAfterLogin
+  }
 
   return (
     <NavigationMenu {...props}>

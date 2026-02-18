@@ -3,7 +3,6 @@
 import { useForm } from "@tanstack/react-form";
 import * as z from "zod";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import {
   Card,
   CardContent,
@@ -13,24 +12,22 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import {
-  Field,
-  FieldError,
   FieldGroup,
-  FieldLabel,
 } from "@/components/ui/field";
-import { Eye, EyeOff, Mail, Lock } from "lucide-react";
+import { Mail, Lock, Loader } from "lucide-react";
 import { useState } from "react";
 import Link from "next/link";
 import { Separator } from "@/components/ui/separator";
-import { cn } from "@/lib/utils";
 import { authClient } from "@/lib/auth-client";
 import { toast } from "sonner";
 import { env } from "@/env";
 import { useRouter } from "next/navigation";
+import { InputField } from "@/components/common/inputField";
+import GoogleLoginButton from "@/components/common/googleLoginButton";
 
 
 const loginSchema = z.object({
-  email: z.string().email({ message: "Enter a valid email address" }),
+  email: z.email({ message: "Enter a valid email address" }),
 
   password: z.string().min(1, { message: "Password is required" }),
 });
@@ -41,6 +38,7 @@ type LoginFormValues = z.infer<typeof loginSchema>;
 export function LoginForm() {
   const [showPassword, setShowPassword] = useState(false);
   const router = useRouter();
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const form = useForm({
     defaultValues: {
@@ -49,13 +47,14 @@ export function LoginForm() {
     },
 
     validators: {
-      onChange: loginSchema,
+      onSubmit: loginSchema,
+      onMount: loginSchema,
     },
 
     onSubmit: async ({ value }) => {
       const toastId = toast.loading("Signing you in...");
-
       try {
+        setIsSubmitting(true);
         const { error } = await authClient.signIn.email({
           email: value.email,
           password: value.password,
@@ -64,6 +63,7 @@ export function LoginForm() {
 
         if (error) {
           toast.error(error.message || "Login failed", { id: toastId });
+          setIsSubmitting(false);
           return;
         }
 
@@ -71,34 +71,16 @@ export function LoginForm() {
 
         router.push("/");
         router.refresh();
+        setIsSubmitting(false);
       } catch (err) {
         toast.error("Something went wrong", { id: toastId });
+        setIsSubmitting(false);
         console.error(err);
       }
     },
   });
 
-  const handleGoogleLogin = async () => {
-    try {
-      const { data, error } = await authClient.signIn.social({
-        provider: "google",
-        callbackURL: env.NEXT_PUBLIC_FRONTEND_URL,
-      });
-
-      if (error) {
-        toast.error(error.message);
-        return;
-      }
-
-      if (data?.url) {
-        window.location.href = data.url;
-      }
-    } catch (err) {
-      toast.error("Google login failed");
-      console.error(err);
-    }
-  };
-
+  
   return (
     <div className="pt-25 bg-background">
       <div className="flex items-center justify-center p-6 lg:p-12">
@@ -128,38 +110,22 @@ export function LoginForm() {
                   form.handleSubmit();
                 }}
               >
-                <FieldGroup className="space-y-5">
+                <FieldGroup className="space-y-1">
                   {/* Email */}
                   <form.Field
                     name="email"
                     children={(field) => {
-                      const isInvalid =
-                        field.state.meta.isTouched && !field.state.meta.isValid;
-
                       return (
-                        <Field data-invalid={isInvalid}>
-                          <FieldLabel>Email Address</FieldLabel>
-
-                          <div className="relative">
-                            <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-
-                            <Input
-                              type="email"
-                              value={field.state.value}
-                              onChange={(e) =>
-                                field.handleChange(e.target.value)
-                              }
-                              onBlur={field.handleBlur}
-                              placeholder="you@example.com"
-                              className={cn("pl-10")}
-                            />
-                          </div>
-
-                          {isInvalid && (
-                            <FieldError errors={field.state.meta.errors} />
-                          )}
-                        </Field>
-                      );
+                        <InputField
+                        field={field}
+                        label="Email Address"
+                        type="email"
+                        placeholder="you@example.com"
+                        icon={
+                          <Mail className="h-4 w-4 text-muted-foreground" />
+                        }
+                      />
+                      )
                     }}
                   />
 
@@ -167,46 +133,19 @@ export function LoginForm() {
                   <form.Field
                     name="password"
                     children={(field) => {
-                      const isInvalid =
-                        field.state.meta.isTouched && !field.state.meta.isValid;
-
                       return (
-                        <Field data-invalid={isInvalid}>
-                          <FieldLabel>Password</FieldLabel>
-
-                          <div className="relative">
-                            <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-
-                            <Input
-                              type={showPassword ? "text" : "password"}
-                              value={field.state.value}
-                              onChange={(e) =>
-                                field.handleChange(e.target.value)
-                              }
-                              onBlur={field.handleBlur}
-                              placeholder="Enter password"
-                              className={cn("pl-10 pr-10")}
-                            />
-
-                            <Button
-                              type="button"
-                              variant="ghost"
-                              size="icon"
-                              className="absolute right-2 top-1/2 -translate-y-1/2 h-7 w-7"
-                              onClick={() => setShowPassword(!showPassword)}
-                            >
-                              {showPassword ? (
-                                <EyeOff className="h-4 w-4" />
-                              ) : (
-                                <Eye className="h-4 w-4" />
-                              )}
-                            </Button>
-                          </div>
-
-                          {isInvalid && (
-                            <FieldError errors={field.state.meta.errors} />
-                          )}
-                        </Field>
+                        <InputField
+                          field={field}
+                          label="Password"
+                          type={showPassword ? "text" : "password"}
+                          placeholder="Enter password"
+                          icon={
+                            <Lock className="h-4 w-4 text-muted-foreground" />
+                          }
+                          showPasswordToggle
+                          onTogglePassword={() => setShowPassword(!showPassword)}
+                          showPassword={showPassword}
+                        />
                       );
                     }}
                   />
@@ -220,22 +159,15 @@ export function LoginForm() {
                 form="login-form"
                 type="submit"
                 className="w-full"
-                disabled={!form.state.isValid || form.state.isSubmitting}
+                disabled={isSubmitting}
               >
-                {form.state.isSubmitting ? "Signing in..." : "Login"}
+                { isSubmitting && <Loader className="animate-spin" />}
+                Sign In
               </Button>
 
               <Separator />
 
-              <Button
-                onClick={handleGoogleLogin}
-                variant="outline"
-                className="w-full"
-                type="button"
-              >
-                Continue with Google
-              </Button>
-
+              <GoogleLoginButton isSubmitting={isSubmitting} />
               <p className="text-center text-sm text-muted-foreground">
                 Don’t have an account?{" "}
                 <Link
