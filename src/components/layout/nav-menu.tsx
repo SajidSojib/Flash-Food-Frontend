@@ -13,6 +13,7 @@ import {
 } from "@/components/layout/navigation-menu";
 import { navRoutesAfterLogin, navRoutesBeforeLogin } from "@/routes/navbarRoutes";
 import { authClient } from "@/lib/auth-client";
+import { NavbarRoute } from "@/types/navbarRoutes";
 
 export const NavMenu = (props: ComponentProps<typeof NavigationMenu>) => {
   const pathname = usePathname();
@@ -21,7 +22,7 @@ export const NavMenu = (props: ComponentProps<typeof NavigationMenu>) => {
   const isActive = (href: string) => 
     pathname === href || pathname.startsWith(href + "/");
 
-  let navItems = navRoutesBeforeLogin
+  let navItems: NavbarRoute[] = navRoutesBeforeLogin
 
   if(session) {
     navItems = navRoutesAfterLogin

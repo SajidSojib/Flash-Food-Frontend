@@ -1,14 +1,5 @@
 import { AppSidebar } from "@/components/layout/app-sidebar"
 import {
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbLink,
-  BreadcrumbList,
-  BreadcrumbPage,
-  BreadcrumbSeparator,
-} from "@/components/ui/breadcrumb"
-import { Separator } from "@/components/ui/separator"
-import {
   SidebarInset,
   SidebarProvider,
   SidebarTrigger,
@@ -35,14 +26,14 @@ export default async function DashboardLayout({
         } as React.CSSProperties
       }
     >
-      <AppSidebar />
+      <AppSidebar role={session?.user?.role} />
       <SidebarInset>
         <header className="flex h-16 shrink-0 items-center gap-2 px-4">
           <SidebarTrigger className="-ml-1" />
         </header>
         <div className="flex flex-1 flex-col gap-4 p-4 pt-0">
-          {session?.user?.role === Role.ADMIN && admin}
-          {session?.user?.role === Role.PROVIDER && provider}
+          {/* {session?.user?.role === Role.ADMIN && admin} */}
+          {/* {session?.user?.role === Role.PROVIDER && provider} */}
           {session?.user?.role === Role.CUSTOMER && customer}
         </div>
       </SidebarInset>

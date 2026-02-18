@@ -291,7 +291,7 @@ function SidebarRail({ className, ...props }: React.ComponentProps<"button">) {
       onClick={toggleSidebar}
       title="Toggle Sidebar"
       className={cn(
-        "hover:after:bg-sidebar-border absolute inset-y-0 z-20 hidden w-4 -translate-x-1/2 transition-all ease-linear group-data-[side=left]:-right-4 group-data-[side=right]:left-0 after:absolute after:inset-y-0 after:left-1/2 after:w-[2px] sm:flex",
+        "hover:after:bg-sidebar-border absolute inset-y-0 z-20 hidden w-4 -translate-x-1/2 transition-all ease-linear group-data-[side=left]:-right-4 group-data-[side=right]:left-0 after:absolute after:inset-y-0 after:left-1/2 after:w-0.5 sm:flex",
         "in-data-[side=left]:cursor-w-resize in-data-[side=right]:cursor-e-resize",
         "[[data-side=left][data-state=collapsed]_&]:cursor-e-resize [[data-side=right][data-state=collapsed]_&]:cursor-w-resize",
         "hover:group-data-[collapsible=offcanvas]:bg-sidebar group-data-[collapsible=offcanvas]:translate-x-0 group-data-[collapsible=offcanvas]:after:left-full",
@@ -686,16 +686,57 @@ function SidebarMenuSubButton({
       data-size={size}
       data-active={isActive}
       className={cn(
-        "text-sidebar-foreground ring-sidebar-ring hover:bg-sidebar-accent hover:text-sidebar-accent-foreground active:bg-sidebar-accent active:text-sidebar-accent-foreground [&>svg]:text-sidebar-accent-foreground flex h-7 min-w-0 -translate-x-px items-center gap-2 overflow-hidden rounded-md px-2 outline-hidden focus-visible:ring-2 disabled:pointer-events-none disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50 [&>span:last-child]:truncate [&>svg]:size-4 [&>svg]:shrink-0",
-        "data-[active=true]:bg-sidebar-accent data-[active=true]:text-sidebar-accent-foreground",
+        // Base styles
+        "relative group inline-flex items-center gap-2 w-full",
+        "h-7 min-w-0 overflow-hidden rounded-md px-2",
+
+        // Typography
         size === "sm" && "text-xs",
         size === "md" && "text-sm",
+        "font-medium",
+
+        // Colors & transitions
+        "text-sidebar-foreground",
+        "bg-transparent",
+        "transition-all duration-200 ease-out",
+
+        // Hover state
+        "hover:text-accent-foreground",
+        "hover:bg-sidebar-accent/50",
+
+        // Focus state
+        "focus-visible:outline-none",
+        "focus-visible:ring-2 focus-visible:ring-ring/40",
+
+        // Active state
+        "data-[active=true]:text-primary-foreground",
+        "data-[active=true]:bg-sidebar-accent",
+
+        // Icon styles
+        "[&>svg]:size-4 [&>svg]:shrink-0",
+        "[&>svg]:transition-colors [&>svg]:duration-200",
+        "group-hover:[&>svg]:text-primary",
+        "data-[active=true]:[&>svg]:text-primary-foreground",
+
+        // Text truncation
+        "[&>span:last-child]:truncate",
+
+        // Disabled states
+        "disabled:pointer-events-none disabled:opacity-50",
+        "aria-disabled:pointer-events-none aria-disabled:opacity-50",
+
+        // Show line on hover or active
+        "hover:after:scale-x-100 hover:after:opacity-100",
+        "data-[active=true]:after:scale-x-100 data-[active=true]:after:opacity-100",
+
+        // Hide in icon mode
         "group-data-[collapsible=icon]:hidden",
-        className
+
+        className,
       )}
       {...props}
     />
-  )
+  );
 }
 
 export {

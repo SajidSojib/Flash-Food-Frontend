@@ -1,10 +1,12 @@
-export const navRoutesBeforeLogin = [
+import { NavbarRoute } from "@/types/navbarRoutes";
+
+export const navRoutesBeforeLogin: NavbarRoute[] = [
   { label: "Home", href: "/" },
   { label: "Browse Menu", href: "/menus" },
   { label: "All Restaurants", href: "/restaurants" },
 ];
 
-export const navRoutesAfterLogin = [
+export const navRoutesAfterLogin: NavbarRoute[] = [
   { label: "Home", href: "/" },
   { label: "Browse Menu", href: "/menus" },
   { label: "All Restaurants", href: "/restaurants" },
