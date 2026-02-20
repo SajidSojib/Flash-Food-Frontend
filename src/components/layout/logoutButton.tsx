@@ -7,7 +7,7 @@ import { authClient } from "@/lib/auth-client";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 
-const LogoutButton = () => {
+const LogoutButton = ({ className }: { className?: string }) => {
   const [isSubmitting, setIsSubmitting] = React.useState(false);
   const router = useRouter();
   const handleLogout = async () => {
@@ -33,7 +33,7 @@ const LogoutButton = () => {
   return (
     <Button
       onClick={handleLogout}
-      className="rounded-full"
+      className={className + " rounded-full "}
       variant="default"
       size="sm"
       disabled={isSubmitting}

@@ -709,8 +709,8 @@ function SidebarMenuSubButton({
         "focus-visible:ring-2 focus-visible:ring-ring/40",
 
         // Active state
-        "data-[active=true]:text-primary-foreground",
-        "data-[active=true]:bg-sidebar-accent",
+        "data-[active=true]:text-sidebar-accent-foreground",
+        "data-[active=true]:bg-sidebar-accent/85",
 
         // Icon styles
         "[&>svg]:size-4 [&>svg]:shrink-0",

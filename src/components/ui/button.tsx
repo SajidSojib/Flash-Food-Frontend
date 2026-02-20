@@ -10,18 +10,18 @@ const buttonVariants = cva(
     variants: {
       variant: {
         default:
-          "bg-primary cursor-pointer text-primary-foreground hover:bg-primary/90 shadow-sm hover:shadow-md",
+          "bg-primary font-semibold cursor-pointer text-primary-foreground hover:bg-primary/90 shadow-sm hover:shadow-md",
         destructive:
-          "bg-destructive cursor-pointer text-destructive-foreground hover:bg-destructive/90 focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40 dark:bg-destructive/60",
+          "bg-destructive font-semibold cursor-pointer text-destructive-foreground hover:bg-destructive/90 focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40 dark:bg-destructive/60",
         outline:
-          "border cursor-pointer border-input bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50",
+          "border font-bold cursor-pointer border-input bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50",
         secondary:
           "bg-secondary cursor-pointer text-secondary-foreground hover:bg-secondary/80",
         ghost:
-          "hover:bg-accent cursor-pointer hover:text-accent-foreground dark:hover:bg-accent/50",
+          "hover:bg-accent font-semibold cursor-pointer hover:text-accent-foreground dark:hover:bg-accent/50",
         link: "text-primary underline-offset-4 hover:underline",
         glass:
-          "glass dark:glass-dark cursor-pointer border border-border/50 hover:border-border/80 text-foreground hover:bg-card/50",
+          "glass dark:glass-dark font-semibold cursor-pointer border border-border/50 hover:border-border/80 text-foreground hover:bg-card/50",
       },
       size: {
         default: "h-10 px-6 py-2 has-[>svg]:px-4",
