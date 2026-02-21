@@ -32,8 +32,6 @@ const loginSchema = z.object({
   password: z.string().min(1, { message: "Password is required" }),
 });
 
-type LoginFormValues = z.infer<typeof loginSchema>;
-
 
 export function LoginForm() {
   const [showPassword, setShowPassword] = useState(false);

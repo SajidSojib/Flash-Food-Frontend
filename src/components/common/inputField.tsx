@@ -18,6 +18,7 @@ interface FormFieldProps {
   showPasswordToggle?: boolean;
   onTogglePassword?: () => void;
   showPassword?: boolean;
+  className?: string;
 }
 
 export function InputField({
@@ -32,6 +33,7 @@ export function InputField({
   showPasswordToggle,
   onTogglePassword,
   showPassword,
+  className,
 }: FormFieldProps) {
   const isInvalid = field.state.meta.isTouched && !field.state.meta.isValid;
   const inputType = showPasswordToggle
@@ -57,7 +59,7 @@ export function InputField({
           min={min}
           max={max}
           step={step}
-          className={cn(icon && "pl-10", showPasswordToggle && "pr-10")}
+          className={cn(icon && "pl-10", showPasswordToggle && "pr-10", className)}
         />
 
         {showPasswordToggle && (

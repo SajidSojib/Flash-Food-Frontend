@@ -77,7 +77,6 @@ const signupSchema = z.object({
     ),
 });
 
-type SignupFormValues = z.infer<typeof signupSchema>;
 
 export function CustomerForm() {
   const [showPassword, setShowPassword] = useState(false);

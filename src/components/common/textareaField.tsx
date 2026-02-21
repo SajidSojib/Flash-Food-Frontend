@@ -11,6 +11,7 @@ interface TextareaFieldProps {
   rows?: number;
   maxLength?: number;
   description?: string;
+  className?: string;
 }
 
 export function TextareaField({
@@ -21,6 +22,7 @@ export function TextareaField({
   rows = 4,
   maxLength,
   description,
+  className,
 }: TextareaFieldProps) {
   const isInvalid = field.state.meta.isTouched && !field.state.meta.isValid;
 
@@ -48,6 +50,7 @@ export function TextareaField({
           className={cn(
             icon && "pl-10",
             "resize-none",
+            className
           )}
         />
 

@@ -34,7 +34,7 @@ export default function PaginationControls({ meta }: PaginationControlsProps) {
 
       <div className="flex items-center space-x-2">
         <Button
-          variant="outline"
+          variant="default"
           size="icon"
           onClick={() => navigateToPage(1)}
           disabled={currentPage === 1}
@@ -43,7 +43,7 @@ export default function PaginationControls({ meta }: PaginationControlsProps) {
         </Button>
 
         <Button
-          variant="outline"
+          variant="default"
           size="icon"
           onClick={() => navigateToPage(currentPage - 1)}
           disabled={currentPage === 1}
@@ -58,7 +58,7 @@ export default function PaginationControls({ meta }: PaginationControlsProps) {
         </div>
 
         <Button
-          variant="outline"
+          variant="default"
           size="icon"
           onClick={() => navigateToPage(currentPage + 1)}
           disabled={currentPage === totalPages}
@@ -67,7 +67,7 @@ export default function PaginationControls({ meta }: PaginationControlsProps) {
         </Button>
 
         <Button
-          variant="outline"
+          variant="default"
           size="icon"
           onClick={() => navigateToPage(totalPages)}
           disabled={currentPage === totalPages}
