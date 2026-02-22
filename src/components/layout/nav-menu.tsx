@@ -22,10 +22,12 @@ export const NavMenu = (props: ComponentProps<typeof NavigationMenu>) => {
   const isActive = (href: string) => 
     pathname === href || pathname.startsWith(href + "/");
 
-  let navItems: NavbarRoute[] = navRoutesBeforeLogin
+  let navItems: NavbarRoute[] = []
 
   if(session) {
     navItems = navRoutesAfterLogin
+  }else {
+    navItems = navRoutesBeforeLogin
   }
 
   return (

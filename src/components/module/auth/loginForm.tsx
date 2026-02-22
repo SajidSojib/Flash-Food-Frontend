@@ -66,8 +66,6 @@ export function LoginForm() {
         }
 
         toast.success("Welcome back!", { id: toastId });
-
-        router.push("/");
         router.refresh();
         setIsSubmitting(false);
       } catch (err) {

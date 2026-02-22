@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { Edit, Plus } from "lucide-react";
+import { Edit, FileText, FolderTree, Plus } from "lucide-react";
 import {
   Dialog,
   DialogContent,
@@ -19,7 +19,7 @@ import { useForm } from "@tanstack/react-form";
 import { FieldGroup } from "@/components/ui/field";
 import { InputField } from "@/components/common/inputField";
 import { TextareaField } from "@/components/common/textareaField";
-import { createCategory, upddateCategory } from "@/action/category.action";
+import { upddateCategory } from "@/action/category.action";
 import { Category } from "@/types/category";
 import { DropdownMenuItem } from "@/components/ui/dropdown-menu";
 
@@ -39,7 +39,7 @@ export default function EditCategoryDialog({
 }: {
   category: Category;
 }) {
-  const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
+  const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
 
   const form = useForm({
     defaultValues: {
@@ -63,7 +63,7 @@ export default function EditCategoryDialog({
           return;
         }
         toast.success("Category updated successfully", { id: toastId });
-        setIsAddDialogOpen(false);
+        setIsEditDialogOpen(false);
       } catch (error) {
         toast.error("Something went wrong", { id: toastId });
         console.error(error);
@@ -71,7 +71,7 @@ export default function EditCategoryDialog({
     },
   });
   return (
-    <Dialog open={isAddDialogOpen} onOpenChange={setIsAddDialogOpen}>
+    <Dialog open={isEditDialogOpen} onOpenChange={setIsEditDialogOpen}>
       <DialogTrigger asChild>
         <DropdownMenuItem asChild>
           <span className="flex items-center">
@@ -105,7 +105,7 @@ export default function EditCategoryDialog({
                     label="Category Name"
                     type="text"
                     placeholder={category.name}
-                    icon={<Plus className="h-4 w-4" />}
+                    icon={<FolderTree className="h-4 w-4" />}
                     className="bg-card"
                   />
                 );
@@ -120,7 +120,7 @@ export default function EditCategoryDialog({
                     field={field}
                     label="Description"
                     placeholder={category.description}
-                    icon={<Plus className="h-4 w-4" />}
+                    icon={<FileText className="h-4 w-4" />}
                     rows={4}
                   />
                 );
@@ -129,7 +129,7 @@ export default function EditCategoryDialog({
           </FieldGroup>
         </form>
         <DialogFooter>
-          <Button variant="outline" onClick={() => setIsAddDialogOpen(false)}>
+          <Button variant="outline" onClick={() => (false)}>
             Cancel
           </Button>
           <Button type="submit" form="edit-category-form">

@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { Plus } from "lucide-react";
+import { FileText, FolderTree, Plus } from "lucide-react";
 import {
   Dialog,
   DialogContent,
@@ -94,10 +94,10 @@ export default function AddCategoryDialog({size="default"}: {size?: "icon" | "de
                     label="Category Name"
                     type="text"
                     placeholder="e.g., Pizza, Burgers, Sushi"
-                    icon={<Plus className="h-4 w-4" />}
+                    icon={<FolderTree className="h-4 w-4" />}
                     className="bg-card"
                   />
-                )
+                );
               }}
             />
             <form.Field
@@ -109,10 +109,10 @@ export default function AddCategoryDialog({size="default"}: {size?: "icon" | "de
                     field={field}
                     label="Description"
                     placeholder="Brief description of the category"
-                    icon={<Plus className="h-4 w-4" />}
+                    icon={<FileText className="h-4 w-4" />}
                     rows={4}
                   />
-                )
+                );
               }}
             />
           </FieldGroup>
