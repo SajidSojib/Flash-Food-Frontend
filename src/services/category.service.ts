@@ -3,19 +3,19 @@ import { cookies } from "next/headers";
 
 const API_URL = env.API_URL;
 
-interface Params {
+export interface Params {
     search?: string;
     page?: string;
     limit?: string;
     createdOrder?: string;
     mealOrder?: string;
 }
-interface ServiceOptions {
+export interface ServiceOptions {
   cache?: RequestCache;
   revalidate?: number;
 }
 
-const getAllCategories = async (params: Params, options?: ServiceOptions) => {
+const getAllCategories = async (params?: Params, options?: ServiceOptions) => {
     const url = new URL(`${API_URL}/categories`);
 
     if(params){

@@ -1,6 +1,6 @@
 "use server"
 
-import { categoryServices } from "@/services/category.service";
+import { categoryServices, Params, ServiceOptions } from "@/services/category.service";
 import { updateTag } from "next/cache";
 
 export const createCategory = async (data: { name: string, description?: string }) => {
@@ -19,4 +19,9 @@ export const deleteCategory = async (id: string) => {
     const res = await categoryServices.deleteCategory(id);
     updateTag("categories");
     return res;
+};
+
+export const getAllCategories = async (params?: Params, options?: ServiceOptions) => {
+  const res = await categoryServices.getAllCategories(params, options);
+  return res;
 };
