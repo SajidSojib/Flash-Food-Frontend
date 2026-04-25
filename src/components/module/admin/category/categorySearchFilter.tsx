@@ -26,7 +26,7 @@ export default function CategorySearchFilter() {
           params.set("createdOrder", sortByDate);
           params.set("mealOrder", sortByCount);
           router.push(`?${params.toString()}`);
-        }, 400);
+        }, 300);
 
         return () => clearTimeout(timeout);
     }, [search, sortByDate, sortByCount]);

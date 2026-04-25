@@ -9,3 +9,13 @@ export interface Category {
     meals: number;
   }
 }
+
+export interface CategoryParams {
+  search?: string;
+  page?: string;
+  limit?: string;
+  isAvailable?: boolean;
+  ratingOrder?: "asc" | "desc";
+  priceOrder?: "asc" | "desc";
+  popularityOrder?: "asc" | "desc";
+}

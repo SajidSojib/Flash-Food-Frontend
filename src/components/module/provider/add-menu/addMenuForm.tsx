@@ -178,12 +178,11 @@ export default function AddMenuForm({availableCategories}: {availableCategories:
 
         toast.success("Menu item added successfully", { id: toastId });
 
-        // Reset form after successful submission
-        // form.reset();
-        // setImagePreviews([]);
-        // setSelectedCategories([]);
-        // setIngredientsList([]);
-        // setNewIngredient("");
+        form.reset();
+        setImagePreviews([]);
+        setSelectedCategories([]);
+        setIngredientsList([]);
+        setNewIngredient("");
       } catch (error) {
         console.error("Error adding menu item:", error);
         toast.error(
@@ -214,7 +213,6 @@ export default function AddMenuForm({availableCategories}: {availableCategories:
       const newImages = [...currentImages, ...files];
       form.setFieldValue("images", newImages);
 
-      // Create preview URLs
       const newPreviews = files.map((file) => URL.createObjectURL(file));
       setImagePreviews((prev) => [...prev, ...newPreviews]);
     }

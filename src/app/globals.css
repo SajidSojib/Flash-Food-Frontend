@@ -60,16 +60,16 @@
   --primary: #fa7046;
   --primary-foreground: #ffffff;
 
-  --secondary: #ffb38a;
+  --secondary: #f5bd9f;
   --secondary-foreground: #181210;
 
   --accent: #ffb38a;
   --accent-foreground: #181210;
 
   --muted: #f0e9e6;
-  --muted-foreground: #6b7280;
+  --muted-foreground: #3e424a;
 
-  --border: #cdcac8;
+  --border: rgb(181, 178, 177);
   --input: #ffffff;
   --ring: #ff7a52;
 

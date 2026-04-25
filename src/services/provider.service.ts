@@ -1,5 +1,5 @@
 import { env } from "@/env";
-import { cookies } from "next/headers";
+import { cookies } from "next/headers"
 
 const API_URL = env.NEXT_PUBLIC_API_URL;
 

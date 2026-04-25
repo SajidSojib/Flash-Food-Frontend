@@ -13,7 +13,7 @@ const Navbar = async () => {
   const { data: session } = await userServices.getSessionServer();
   console.log(session);
   return (
-    <nav className="fixed z-50 top-6 max-w-(--breakpoint-xl) mx-auto inset-x-4">
+    <nav className="fixed z-50 top-0 max-w-(--breakpoint-xl) mx-auto inset-x-4">
       <div className="glass mx-auto dark:glass-dark flex h-16 items-center justify-between px-5 rounded-full shadow-[0_20px_60px_-15px_rgba(0,0,0,0.15)] dark:shadow-[0_20px_60px_-15px_rgba(0,0,0,0.35)] border border-border/50 backdrop-blur-sm">
         {/* Logo */}
         <CompanyLogo classNames={"hidden sm:block"} />

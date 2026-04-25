@@ -1,6 +1,8 @@
 import { env } from "@/env";
 import { providerServices } from "./provider.service";
 import { cookies } from "next/headers";
+import { Params, ServiceOptions } from "./category.service";
+import { CategoryParams } from "@/types/category";
 
 const API_URL = env.API_URL;
 
@@ -27,6 +29,29 @@ const createMenu = async (data: {
   return result;
 };
 
+const getAllMenus = async (params?: CategoryParams, options?: ServiceOptions) => {
+    const url = new URL(`${API_URL}/meals`);
+    if(params){
+        Object.entries(params).forEach(([key, value]) => {
+            url.searchParams.set(key, value as string);
+        });
+    }
+    const config: RequestInit = {}
+    if (options?.cache) {
+      config.cache = options.cache;
+    }
+    if (options?.revalidate) {
+      config.next = { revalidate: options.revalidate };
+    }
+
+    config.next = { ...config.next, tags: ["meals"] }
+
+    const res = await fetch(url.toString(), config);
+    const result = await res.json();
+    return result;
+};
+
 export const menuServices = {
   createMenu,
+  getAllMenus
 };

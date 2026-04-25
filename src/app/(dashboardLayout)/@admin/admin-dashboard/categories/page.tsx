@@ -50,7 +50,7 @@ import CategorySearchFilter from "@/components/module/admin/category/categorySea
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 
 export default async function ManageCategoriesPage({
-  searchParams,
+  searchParams
 }: {
   searchParams: Promise<{ search: string; page: string; limit: string, createdOrder?: string, mealOrder?: string }>;
 }) {

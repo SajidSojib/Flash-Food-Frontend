@@ -7,7 +7,7 @@ import Image from "next/image";
 
 export default function HeroSection() {
   return (
-    <section className="w-full min-h-screen  mx-auto p-6 pb-12 pt-28 sm:pt-45 bg-card">
+    <section className="w-full mx-auto p-6 pb-12 sm:pb-25 pt-20 sm:pt-35 bg-card">
       <div className="grid md:grid-cols-2 max-w-(--breakpoint-xl) mx-auto gap-16 items-center">
         {/* Hero Left */}
         <div className="flex flex-col gap-3 sm:gap-8">
@@ -80,7 +80,7 @@ export default function HeroSection() {
 
         {/* Hero Right: Interactive Carousel Mockup */}
         <div className="relative group">
-          <div className="relative rounded-2xl w-2xs sm:w-sm lg:w-md mx-auto xl:w-xl h-full overflow-y-hidden aspect-square">
+          <div className="relative rounded-2xl w-2xs sm:w-sm lg:w-md mx-auto xl:w-lg h-full overflow-y-hidden aspect-square">
             <Image
               src="/hero.avif"
               alt="High quality gourmet pasta dish close up"
