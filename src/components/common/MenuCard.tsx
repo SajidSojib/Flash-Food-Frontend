@@ -5,7 +5,8 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Star, ShoppingCart, Eye, ShoppingBag, Flame, Clock } from "lucide-react";
 import { cartServices } from "@/services/cart.service";
-import AddToCartButton from "./addToCartButton";
+import Link from "next/link";
+import AddToCartIcon from "./addToCartIcon";
 
 export interface MenuItem {
   id: string;
@@ -103,11 +104,16 @@ export default async function MenuCard({ item }: Props) {
             </span>
           </div>
         </div>
-        <AddToCartButton cartItems={data.cartItems} id={item.id}></AddToCartButton>
-        <Button className="rounded-full sm:gap-1">
-          <Eye />
-          <span className="hidden sm:inline">Details</span>
-        </Button>
+        <AddToCartIcon
+          cartItems={data.cartItems}
+          id={item.id}
+        ></AddToCartIcon>
+        <Link href={`/menus/${item.id}`}>
+          <Button className="rounded-full sm:gap-1">
+            <Eye />
+            <span className="hidden sm:inline">Details</span>
+          </Button>
+        </Link>
       </CardFooter>
     </Card>
   );
