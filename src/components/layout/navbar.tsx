@@ -8,6 +8,7 @@ import { Badge } from "@/components/ui/badge";
 import CompanyLogo from "../common/companyLogo";
 import { userServices } from "@/services/user.service";
 import LogoutButton from "./logoutButton";
+import CartDropdown from "./cartDropdown";
 
 const Navbar = async () => {
   const { data: session } = await userServices.getSessionServer();
@@ -23,19 +24,9 @@ const Navbar = async () => {
 
         <div className="flex items-center gap-3">
           {/* Cart Button with Badge */}
-          <Button
-            variant="ghost"
-            size="icon"
-            className="rounded-full inline-flex relative"
-            asChild
-          >
-            <Link href="/cart">
-              <ShoppingCart className="h-5 w-5" />
-              <Badge className="absolute -top-1 -right-1 h-5 w-5 p-0 flex items-center justify-center text-[10px]">
-                3
-              </Badge>
-            </Link>
-          </Button>
+          {session && (
+            <CartDropdown userId = {session.user.id}/>
+          )}
 
           {/* Theme Toggle */}
           <div className="hidden lg:block">

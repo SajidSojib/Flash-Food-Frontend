@@ -1,7 +1,7 @@
 import { env } from "@/env";
 import { providerServices } from "./provider.service";
 import { cookies } from "next/headers";
-import { Params, ServiceOptions } from "./category.service";
+import { ServiceOptions } from "./category.service";
 import { CategoryParams } from "@/types/category";
 
 const API_URL = env.API_URL;
@@ -25,7 +25,6 @@ const createMenu = async (data: {
     body: JSON.stringify({providerId: provider.id, ...data}),
   });
   const result = await response.json();
-  console.log(result);
   return result;
 };
 
@@ -53,5 +52,6 @@ const getAllMenus = async (params?: CategoryParams, options?: ServiceOptions) =>
 
 export const menuServices = {
   createMenu,
-  getAllMenus
+  getAllMenus,
+  
 };

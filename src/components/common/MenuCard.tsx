@@ -4,6 +4,8 @@ import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Star, ShoppingCart, Eye, ShoppingBag, Flame, Clock } from "lucide-react";
+import { cartServices } from "@/services/cart.service";
+import AddToCartButton from "./addToCartButton";
 
 export interface MenuItem {
   id: string;
@@ -23,8 +25,9 @@ interface Props {
   item: MenuItem;
 }
 
-export default function MenuCard({ item }: Props) {
-  const cartItems = [];
+export default async function MenuCard({ item }: Props) {
+  const {data} = await cartServices.getMyCart();
+
   return (
     <Card className="group overflow-hidden pt-0 rounded-2xl border bg-card shadow-sm hover:shadow-primary hover:shadow-md transition-all duration-300 border-none">
       {/* Image */}
@@ -100,18 +103,7 @@ export default function MenuCard({ item }: Props) {
             </span>
           </div>
         </div>
-        <Button
-          variant="outline"
-          size="icon"
-          className="rounded-full"
-          // onClick={() => toggleCart(item.id)}
-        >
-          <ShoppingCart
-          // className={`h-4 w-4 ${
-          //   cartItems.includes(item.id) ? "fill-primary" : ""
-          // }`}
-          />
-        </Button>
+        <AddToCartButton cartItems={data.cartItems} id={item.id}></AddToCartButton>
         <Button className="rounded-full sm:gap-1">
           <Eye />
           <span className="hidden sm:inline">Details</span>
