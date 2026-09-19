@@ -4,16 +4,26 @@ import { userServices } from "@/services/user.service";
 import { OrderStats } from "@/components/module/customer/orders/orderStats";
 import OrdersTable from "@/components/module/customer/orders/orderTable";
 import PaginationControls from "@/components/common/pagination-controls";
+import { providerServices } from "@/services/provider.service";
 
 export const metadata: Metadata = {
-  title: "My Orders | Dashboard",
-  description: "Track and manage your orders",
+  title: "All Orders | Dashboard",
+  description: "Track and manage all your orders",
 };
 
-export default async function MyOrders() {
-  const {data:session} = await userServices.getSessionServer();
-  const { data: orderData } = await orderServices.getAllOrders({page: "1", limit: "10", userId: session?.user?.id}, {revalidate: 60});
-  console.log({orderData, session});
+export default async function AllOrders() {
+  const sessionPromise = userServices.getSessionServer();
+  const providerProfilePromise = providerServices.getMyProviderProfile();
+
+  const [{data: session}, {data: provider}] = await Promise.all([
+    sessionPromise,
+    providerProfilePromise,
+  ]);
+
+  const { data: orderData } = await orderServices.getAllOrders(
+    { page: "1", limit: "10", providerId: provider?.id },
+    { revalidate: 60 },
+  );
 
   return (
     <div className="min-h-screen">
@@ -23,7 +33,7 @@ export default async function MyOrders() {
           <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
             <div>
               <h1 className="text-2xl sm:text-3xl text-center sm:text-left font-bold tracking-tight gradient-text">
-                My Orders
+                All Orders
               </h1>
               <p className="text-muted-foreground text-md sm:text-base text-center sm:text-left">
                 Track and manage all your orders in one place
@@ -36,9 +46,11 @@ export default async function MyOrders() {
         <OrderStats orders={orderData?.data} />
 
         {/* Orders List */}
-        <OrdersTable orders={orderData?.data}/>
+        <OrdersTable orders={orderData?.data} />
 
-        {orderData?.data?.length > 0 && <PaginationControls meta={orderData?.meta} />}
+        {orderData?.data?.length > 0 && (
+          <PaginationControls meta={orderData.meta} />
+        )}
       </div>
     </div>
   );

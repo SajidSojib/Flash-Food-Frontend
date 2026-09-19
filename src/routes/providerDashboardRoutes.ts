@@ -20,7 +20,7 @@ export const providerDashboardRoutes: DashboardRoute[] = [
       },
       {
         title: "All Orders",
-        url: "/provider-dashboard/my-orders",
+        url: "/provider-dashboard/all-orders",
         icon: ShoppingBag,
       },
       {

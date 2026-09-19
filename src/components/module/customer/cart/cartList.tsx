@@ -23,55 +23,89 @@ export default function CartList({
 }) {
   if (cartItems.length === 0) {
     return (
-      <Card className="p-6 text-center space-y-4">
-        <p className="text-muted-foreground">Your cart is empty</p>
-        <Link href="/menus"><Button>Browse Food</Button></Link>
+      <Card className="mx-auto max-w-2xl">
+        <CardContent className="flex flex-col items-center justify-center gap-4 py-16 text-center">
+          <div className="rounded-full bg-muted p-4">
+            <span className="text-2xl">🛒</span>
+          </div>
+
+          <div>
+            <h2 className="text-lg font-semibold">Your cart is empty</h2>
+            <p className="mt-1 text-sm text-muted-foreground">
+              Add some delicious food to get started.
+            </p>
+          </div>
+
+          <Button asChild>
+            <Link href="/menus">Browse Food</Link>
+          </Button>
+        </CardContent>
       </Card>
     );
   }
 
   return (
-    <Card className="p-6 space-y-6">
-      <CardContent className="space-y-4 p-0">
-        {cartItems.map((item) => (
-          <div key={item?.id} className="flex flex-col gap-4">
-            <div className="flex items-center justify-between gap-1 sm:gap-4">
-              {/* Left */}
-              <div className="flex items-center gap-4">
+    <Card className="mx-auto max-w-4xl overflow-hidden">
+      <CardContent className="p-0">
+        {/* Header */}
+        <div className="border-b px-4 py-4 sm:px-6">
+          <h1 className="text-2xl sm:text-3xl gradient-text  font-bold">Your Cart</h1>
+          <p className="text-sm text-muted-foreground">
+            {cartItems.length} {cartItems.length === 1 ? "item" : "items"} in
+            your cart
+          </p>
+        </div>
+
+        {/* Items */}
+        <div className="divide-y">
+          {cartItems.map((item) => (
+            <div
+              key={item.id}
+              className="flex items-center justify-between gap-3 px-4 py-4 sm:px-6"
+            >
+              {/* Food info */}
+              <div className="flex min-w-0 items-center gap-3 sm:gap-4">
                 <img
-                  src={item?.mealImage}
-                  alt={item?.mealName}
-                  className="w-12 h-12 sm:w-16 sm:h-16 rounded-md object-cover"
+                  src={item.mealImage}
+                  alt={item.mealName}
+                  className="h-14 w-14 shrink-0 rounded-lg object-cover sm:h-18 sm:w-18"
                 />
 
-                <div>
-                  <h2 className="font-medium text-xs sm:text-base">{item?.mealName}</h2>
-                  <p className="text-xs sm:text-sm text-muted-foreground">
-                    ৳ {item?.price}
+                <div className="min-w-0">
+                  <h2 className="truncate text-sm font-medium sm:text-base">
+                    {item.mealName}
+                  </h2>
+
+                  <p className="mt-1 text-sm text-muted-foreground">
+                    ৳ {item.price}
                   </p>
                 </div>
               </div>
 
-              {/* Right */}
-              <CartActionButton mealId={item?.mealId} quantity={item?.quantity} />
+              {/* Actions */}
+              <CartActionButton mealId={item.mealId} quantity={item.quantity} />
             </div>
-            <Separator />
-          </div>
-        ))}
-
-        <div className="flex justify-between font-semibold text-lg">
-          <span>Total</span>
-          <span>৳ {totalAmount}</span>
+          ))}
         </div>
 
-        <div className="flex justify-between gap-4 mt-3">
-          <Button
-            variant="outline"
-          >
-            <Link href="/menus">Browse <span className="hidden sm:inline">More</span></Link>
-          </Button>
+        {/* Summary */}
+        <div className="border-t px-4 py-5 sm:px-6">
+          <div className="flex items-center justify-between">
+            <span className="text-sm text-muted-foreground">Total</span>
+            <span className="text-xl font-bold">৳ {totalAmount}</span>
+          </div>
 
-          <OrderNowButton totalAmount={totalAmount} />
+          {/* <Separator className="my-4" /> */}
+
+          <div className="flex justify-between mt-6 gap-3">
+            <Button variant="outline" asChild>
+              <Link href="/menus">
+                Browse <span className="hidden sm:inline">&nbsp;More</span>
+              </Link>
+            </Button>
+
+            <OrderNowButton totalAmount={totalAmount} />
+          </div>
         </div>
       </CardContent>
     </Card>
