@@ -9,7 +9,7 @@ type CartItem = {
   id: string;
   mealId: string;
   mealName: string;
-  mealImages: string[];
+  mealImage: string;
   price: number;
   quantity: number;
 };
@@ -34,26 +34,26 @@ export default function CartList({
     <Card className="p-6 space-y-6">
       <CardContent className="space-y-4 p-0">
         {cartItems.map((item) => (
-          <div key={item.id} className="flex flex-col gap-4">
+          <div key={item?.id} className="flex flex-col gap-4">
             <div className="flex items-center justify-between gap-1 sm:gap-4">
               {/* Left */}
               <div className="flex items-center gap-4">
                 <img
-                  src={item.mealImages[0]}
-                  alt={item.mealName}
+                  src={item?.mealImage}
+                  alt={item?.mealName}
                   className="w-12 h-12 sm:w-16 sm:h-16 rounded-md object-cover"
                 />
 
                 <div>
-                  <h2 className="font-medium text-xs sm:text-base">{item.mealName}</h2>
+                  <h2 className="font-medium text-xs sm:text-base">{item?.mealName}</h2>
                   <p className="text-xs sm:text-sm text-muted-foreground">
-                    ৳ {item.price}
+                    ৳ {item?.price}
                   </p>
                 </div>
               </div>
 
               {/* Right */}
-              <CartActionButton mealId={item.mealId} quantity={item.quantity} />
+              <CartActionButton mealId={item?.mealId} quantity={item?.quantity} />
             </div>
             <Separator />
           </div>
@@ -71,7 +71,7 @@ export default function CartList({
             <Link href="/menus">Browse <span className="hidden sm:inline">More</span></Link>
           </Button>
 
-          <OrderNowButton />
+          <OrderNowButton totalAmount={totalAmount} />
         </div>
       </CardContent>
     </Card>

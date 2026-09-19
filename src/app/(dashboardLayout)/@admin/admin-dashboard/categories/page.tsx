@@ -1,47 +1,8 @@
-// import { useState, useEffect } from "react";
 import {
-  Plus,
-  Search,
-  Edit,
-  Trash2,
-  MoreHorizontal,
-  Eye,
-  EyeOff,
-  FolderTree,
   Filter,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
 
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { Badge } from "@/components/ui/badge";
-import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
-import { Switch } from "@/components/ui/switch";
-import { toast } from "sonner";
-import { Category } from "@/types/category";
 import { categoryServices } from "@/services/category.service";
 import AddCategoryDialog from "@/components/module/admin/category/addCategoryDialog";
 import PaginationControls from "@/components/common/pagination-controls";
@@ -80,19 +41,6 @@ export default async function ManageCategoriesPage({
         </div>
       </div>
 
-      {/* Search and Filter */}
-      {/* <div className="flex items-center gap-4">
-        <div className="relative flex-1 group max-w-sm">
-          <Search
-            className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-card-foreground group-hover:text-primary 
-               peer-focus:text-primary transition-colors duration-200"
-          />
-          <Input
-            placeholder="Search categories..."
-            className="pl-10 bg-card text-card-foreground peer"
-          />
-        </div>
-      </div> */}
       <div className="hidden sm:block">
         <CategorySearchFilter />
       </div>

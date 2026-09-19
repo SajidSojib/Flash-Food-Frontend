@@ -13,6 +13,7 @@ const getMyCart = async () => {
         Cookie: cookieStore.toString(),
       },
       cache: "no-store",
+      next: { tags: ["cart"] },
     });
     const result = await response.json();
     return result;

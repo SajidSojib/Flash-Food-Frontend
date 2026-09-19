@@ -55,7 +55,6 @@ const MenuDetailsPage = async ({
   if (!menu) {
     notFound();
   }
-
   // Calculate average rating
   const avgRating =
     menu.reviews?.length > 0
@@ -307,9 +306,7 @@ const MenuDetailsPage = async ({
                 <div className="mt-4 p-3 bg-green-50 dark:bg-green-900 rounded-lg flex items-center justify-between">
                   <div className="flex items-center gap-2">
                     <Truck className="h-4 w-4 text-green-600 dark:text-green-200" />
-                    <span className="text-sm">
-                      Estimated Delivery
-                    </span>
+                    <span className="text-sm">Estimated Delivery</span>
                   </div>
                   <span className="text-sm font-semibold text-green-600 dark:text-green-200">
                     20-30 min
@@ -389,7 +386,7 @@ const MenuDetailsPage = async ({
                 <div className="flex items-center justify-between text-sm">
                   <span className="text-muted-foreground">Minimum Order</span>
                   <span className="font-semibold text-muted-foreground">
-                    $10
+                    ৳150
                   </span>
                 </div>
               </CardContent>

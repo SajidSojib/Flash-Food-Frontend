@@ -23,7 +23,7 @@ const createMenu = async (data: {
         "Content-Type": "application/json",
         Cookie: cookieStore.toString(),
       },
-      body: JSON.stringify({ providerId: provider.id, ...data }),
+      body: JSON.stringify({ providerId: provider?.id, ...data }),
     });
     const result = await response.json();
     return result;

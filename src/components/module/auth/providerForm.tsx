@@ -3,7 +3,6 @@
 import { useForm } from "@tanstack/react-form";
 import * as z from "zod";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import {
   Card,
   CardContent,
@@ -33,7 +32,7 @@ import {
   Check,
   Loader,
 } from "lucide-react";
-import { useState, useMemo } from "react";
+import { useState, useMemo, use } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { Separator } from "@/components/ui/separator";
@@ -42,11 +41,11 @@ import { authClient } from "@/lib/auth-client";
 import { toast } from "sonner";
 import { env } from "@/env";
 import { useRouter } from "next/navigation";
-import { providerServices } from "@/services/provider.service";
 import { AnimatePresence, motion, MotionConfig } from "motion/react";
 import useMeasure from "react-use-measure";
 import { InputField } from "@/components/common/inputField";
 import { TextareaField } from "@/components/common/textareaField";
+import { createProvider } from "@/action/provider.action";
 
 const providerSchema = z.object({
   // User data
@@ -186,6 +185,7 @@ export function ProviderForm() {
 
         const providerData = {
           restaurantName: value.restaurantName,
+          userId: "",
           token: "",
           description: value.description,
           logo: "",
@@ -219,8 +219,7 @@ export function ProviderForm() {
               throw new Error(result.error?.message || "Image upload failed");
             }
           } catch (imageError) {
-            console.error("User photo upload error:", imageError);
-            toast.warning("Profile photo upload failed, continuing without it");
+            toast.warning("Profile photo upload failed, continuing without it", { id: toastId });
           }
         }
 
@@ -248,25 +247,19 @@ export function ProviderForm() {
               throw new Error(result.error?.message || "Logo upload failed");
             }
           } catch (imageError) {
-            console.error("Logo upload error:", imageError);
             toast.warning(
-              "Restaurant logo upload failed, continuing without it",
+              "Restaurant logo upload failed, continuing without it", { id: toastId }
             );
           }
         }
 
         console.log({userData, providerData});
-
-        const { data, error } = await authClient.signUp.email(userData);
-        if (data?.token) {
-          providerData.token = data?.token;
+        
+        const { data, error } = await authClient.signUp.email({...userData, callbackURL: `${env.NEXT_PUBLIC_FRONTEND_URL}`});
+        if (data?.user?.id) {
+          providerData.userId = data?.user?.id;
         }
-
-        const { data: providerRes, error: providerError } =
-          await providerServices.createProvider({
-            userId: data?.user.id,
-            ...providerData,
-          });
+        const { data: providerRes, error: providerError } = await createProvider(providerData);
 
         if (error || providerError) {
           toast.error(
@@ -282,7 +275,7 @@ export function ProviderForm() {
         });
 
         setIsSubmitting(false);
-        router.push("/login");
+        router.push("/");
         router.refresh();
       } catch (error) {
         console.error("Signup error:", error);

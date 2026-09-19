@@ -8,7 +8,7 @@ import { addToCart } from "@/action/cart.action";
 
 const AddToCartIcon = ({
   cartItems,
-  id,
+  id
 }: {
   cartItems: CartItem[];
   id: string;
@@ -22,7 +22,9 @@ const AddToCartIcon = ({
       } else {
         toast.success("Added to cart successfully", { id: toastId });
       }
+      console.log(res)
     } catch (error) {
+      console.log(error)
       toast.error("Something went wrong", { id: toastId });
     } 
   };

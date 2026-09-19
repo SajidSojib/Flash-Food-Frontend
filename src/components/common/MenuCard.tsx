@@ -105,7 +105,7 @@ export default async function MenuCard({ item }: Props) {
           </div>
         </div>
         <AddToCartIcon
-          cartItems={data.cartItems}
+          cartItems={data?.cartItems}
           id={item.id}
         ></AddToCartIcon>
         <Link href={`/menus/${item.id}`}>

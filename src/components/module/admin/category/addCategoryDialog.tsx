@@ -54,6 +54,7 @@ export default function AddCategoryDialog({size="default"}: {size?: "icon" | "de
           return;
         }
         toast.success("Category created successfully", { id: toastId });
+        form.reset();
         setIsAddDialogOpen(false);
       } catch (error) {
         toast.error("Something went wrong", { id: toastId });

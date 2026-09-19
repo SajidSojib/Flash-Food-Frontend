@@ -18,7 +18,7 @@ import { Input } from "../ui/input";
 import { Textarea } from "../ui/textarea";
 import { Label } from "../ui/label";
 
-export default function OrderNowButton() {
+export default function OrderNowButton({ totalAmount }: { totalAmount: number }) {
   const [open, setOpen] = React.useState(false);
   const [deliveryAddress, setDeliveryAddress] = React.useState("");
   const [deliveryInstructions, setDeliveryInstructions] = React.useState("");
@@ -30,10 +30,8 @@ export default function OrderNowButton() {
     }
 
     const toastId = toast.loading("Ordering...");
-
     try {
-      const res = await createOrder(deliveryAddress, deliveryInstructions);
-
+      const res = await createOrder(deliveryAddress, deliveryInstructions, totalAmount);
       if (res.error) {
         toast.error(res.message || res.error.message, {
           id: toastId,

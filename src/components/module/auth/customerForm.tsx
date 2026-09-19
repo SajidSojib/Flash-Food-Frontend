@@ -133,7 +133,7 @@ export function CustomerForm() {
         }
 
         // Sign up with Better Auth
-        const { data, error } = await authClient.signUp.email(userData);
+        const { data, error } = await authClient.signUp.email({...userData, callbackURL: `${env.NEXT_PUBLIC_FRONTEND_URL}`});
 
         if (error) {
           toast.error(error.message || "Sign up failed", { id: toastId });
